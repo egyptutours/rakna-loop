@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* RAKNA LOOP design tokens — premium Saudi smart-city palette */
+@theme {
+  --color-forest: #163828;
+  --color-forest-2: #1f4d38;
+  --color-forest-3: #2c6249;
+  --color-sage: #a7bea3;
+  --color-sage-soft: #e4ece1;
+  --color-sage-mist: #f0f4ee;
+  --color-paper: #f7f5ef;
+  --color-card: #fffefb;
+  --color-ink: #212528;
+  --color-ink-2: #3a3f43;
+  --color-mute: #6a706c;
+  --color-line: #e4e1d8;
+  --color-signal: #2563c9;   /* community signal — not guaranteed */
+  --color-signal-soft: #e5eefb;
+  --color-private: #1f8a55;  /* approved private parking */
+  --color-private-soft: #e2f3ea;
+  --color-inactive: #9a9f9c;
+  --color-gold: #b08d4f;     /* RAKNA KEYS accent */
+  --color-gold-soft: #f4ecdc;
+  --color-danger: #b4402f;
+  --color-danger-soft: #f8e6e2;
+  --color-warn: #a86b12;
+  --color-warn-soft: #fbf0db;
+
+  --font-sans: var(--font-plex), "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(22 56 40 / 0.04), 0 8px 24px -12px rgb(22 56 40 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(22 56 40 / 0.06), 0 18px 40px -18px rgb(22 56 40 / 0.35);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "kern";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Arabic typography: slightly taller line-height, no letter-spacing tricks */
+html[dir="rtl"] body {
+  line-height: 1.7;
+}
+html[dir="rtl"] .tracking-wide,
+html[dir="rtl"] .tracking-wider,
+html[dir="rtl"] .tracking-widest {
+  letter-spacing: 0;
+}
+
+/* Numbers stay left-to-right inside RTL text */
+.num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+/* keep block-level numbers aligned with the surrounding text direction */
+html[dir="rtl"] .num { text-align: right; }
+html[dir="ltr"] .num { text-align: left; }
+html .text-center .num, html .num.text-center { text-align: center; }
+html .text-end .num { text-align: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--color-forest-3);
+  outline-offset: 2px;
+}
+
+/* Map marker styles (MapLibre HTML markers) */
+.rk-marker {
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  border: 3px solid white;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+.rk-marker:hover { transform: scale(1.12); }
+.rk-marker--signal { background: var(--color-signal); }
+.rk-marker--pending { background: white; color: var(--color-signal); border: 3px dashed var(--color-signal); }
+.rk-marker--claimed { background: #7d9bd0; }
+.rk-marker--inactive { background: var(--color-inactive); width: 22px; height: 22px; border-width: 2px; opacity: 0.85; }
+.rk-marker--private { background: var(--color-private); border-radius: 9px; }
+.rk-marker--selected { outline: 3px solid var(--color-gold); outline-offset: 2px; }
+.rk-marker--cluster {
+  width: 38px; height: 38px; background: var(--color-signal); font-size: 13px;
+  box-shadow: 0 0 0 6px rgb(37 99 201 / 0.18), 0 4px 14px rgb(0 0 0 / 0.25);
+}
+.rk-marker--me {
+  width: 18px; height: 18px; background: #0f172a; border: 3px solid white;
+  box-shadow: 0 0 0 6px rgb(15 23 42 / 0.18);
+}
+.rk-pulse { position: relative; }
+.rk-pulse::after {
+  content: ""; position: absolute; inset: -8px; border-radius: 9999px;
+  border: 2px solid var(--color-signal); opacity: 0; animation: rk-pulse 2.2s ease-out infinite;
+}
+@keyframes rk-pulse {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rk-pulse::after { animation: none; }
+}
+
+.maplibregl-ctrl-attrib { font-size: 10px; }
+.maplibregl-map { font-family: var(--font-sans); }
+
+/* Thin scrollbars for horizontal chip rows */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

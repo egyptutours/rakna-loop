@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+coverage/
+.data/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+next-env.d.ts
+public/maplibre-gl-worker.mjs
+.vercel
+
+# Local Claude Code / desktop app settings (machine-specific paths, e.g. launch.json)
+.claude/

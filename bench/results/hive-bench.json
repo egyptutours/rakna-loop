@@ -1,0 +1,349 @@
+{
+  "machine": "win32 x64 node v26.13.1",
+  "startedAt": "2026-11-20T14:00:27.660Z",
+  "app": [
+    {
+      "reports": 2510,
+      "city": {
+        "mode": "aggregate",
+        "resolution": 6,
+        "overlayResolution": 6,
+        "p50ms": 6.6,
+        "p95ms": 22.2,
+        "queriedCells": 90,
+        "returnedCells": 65,
+        "markers": 0,
+        "payloadKB": 39.5,
+        "storageCallsPerQuery": 3
+      },
+      "neighborhood": {
+        "mode": "aggregate",
+        "resolution": 9,
+        "overlayResolution": 9,
+        "p50ms": 10.9,
+        "p95ms": 12.7,
+        "queriedCells": 281,
+        "returnedCells": 7,
+        "markers": 0,
+        "payloadKB": 4.8,
+        "storageCallsPerQuery": 3
+      },
+      "street": {
+        "mode": "street",
+        "resolution": 10,
+        "overlayResolution": 9,
+        "p50ms": 8.2,
+        "p95ms": 10.3,
+        "queriedCells": 93,
+        "returnedCells": 5,
+        "markers": 3,
+        "payloadKB": 5.4,
+        "storageCallsPerQuery": 14
+      },
+      "cache": {
+        "coldMs": 15,
+        "warmMs": 12.2
+      }
+    },
+    {
+      "reports": 10010,
+      "city": {
+        "mode": "aggregate",
+        "resolution": 6,
+        "overlayResolution": 6,
+        "p50ms": 2.9,
+        "p95ms": 5.4,
+        "queriedCells": 90,
+        "returnedCells": 68,
+        "markers": 0,
+        "payloadKB": 41.5,
+        "storageCallsPerQuery": 3
+      },
+      "neighborhood": {
+        "mode": "aggregate",
+        "resolution": 9,
+        "overlayResolution": 9,
+        "p50ms": 9.1,
+        "p95ms": 12.5,
+        "queriedCells": 281,
+        "returnedCells": 18,
+        "markers": 0,
+        "payloadKB": 11.3,
+        "storageCallsPerQuery": 3
+      },
+      "street": {
+        "mode": "street",
+        "resolution": 10,
+        "overlayResolution": 9,
+        "p50ms": 7.3,
+        "p95ms": 10.4,
+        "queriedCells": 93,
+        "returnedCells": 5,
+        "markers": 3,
+        "payloadKB": 5.4,
+        "storageCallsPerQuery": 14
+      },
+      "cache": {
+        "coldMs": 11.4,
+        "warmMs": 6.2
+      }
+    },
+    {
+      "reports": 50010,
+      "city": {
+        "mode": "aggregate",
+        "resolution": 6,
+        "overlayResolution": 6,
+        "p50ms": 2.9,
+        "p95ms": 5.1,
+        "queriedCells": 90,
+        "returnedCells": 72,
+        "markers": 0,
+        "payloadKB": 44,
+        "storageCallsPerQuery": 3
+      },
+      "neighborhood": {
+        "mode": "aggregate",
+        "resolution": 9,
+        "overlayResolution": 9,
+        "p50ms": 7.6,
+        "p95ms": 9.1,
+        "queriedCells": 281,
+        "returnedCells": 65,
+        "markers": 0,
+        "payloadKB": 39.2,
+        "storageCallsPerQuery": 3
+      },
+      "street": {
+        "mode": "street",
+        "resolution": 10,
+        "overlayResolution": 9,
+        "p50ms": 30.6,
+        "p95ms": 32,
+        "queriedCells": 93,
+        "returnedCells": 7,
+        "markers": 4,
+        "payloadKB": 7.6,
+        "storageCallsPerQuery": 14
+      },
+      "cache": {
+        "coldMs": 20.4,
+        "warmMs": 6.7
+      }
+    },
+    {
+      "reports": 100010,
+      "city": {
+        "mode": "aggregate",
+        "resolution": 6,
+        "overlayResolution": 6,
+        "p50ms": 2.6,
+        "p95ms": 2.8,
+        "queriedCells": 90,
+        "returnedCells": 73,
+        "markers": 0,
+        "payloadKB": 44.8,
+        "storageCallsPerQuery": 3
+      },
+      "neighborhood": {
+        "mode": "aggregate",
+        "resolution": 9,
+        "overlayResolution": 9,
+        "p50ms": 6.5,
+        "p95ms": 7.9,
+        "queriedCells": 281,
+        "returnedCells": 66,
+        "markers": 0,
+        "payloadKB": 40.1,
+        "storageCallsPerQuery": 3
+      },
+      "street": {
+        "mode": "street",
+        "resolution": 10,
+        "overlayResolution": 9,
+        "p50ms": 62.2,
+        "p95ms": 77.7,
+        "queriedCells": 93,
+        "returnedCells": 7,
+        "markers": 5,
+        "payloadKB": 8.7,
+        "storageCallsPerQuery": 14
+      },
+      "cache": {
+        "coldMs": 30.6,
+        "warmMs": 12.7
+      }
+    },
+    {
+      "reports": 250010,
+      "city": {
+        "mode": "aggregate",
+        "resolution": 6,
+        "overlayResolution": 6,
+        "p50ms": 2.6,
+        "p95ms": 5,
+        "queriedCells": 90,
+        "returnedCells": 73,
+        "markers": 0,
+        "payloadKB": 44.8,
+        "storageCallsPerQuery": 3
+      },
+      "neighborhood": {
+        "mode": "aggregate",
+        "resolution": 9,
+        "overlayResolution": 9,
+        "p50ms": 7.5,
+        "p95ms": 12.3,
+        "queriedCells": 281,
+        "returnedCells": 66,
+        "markers": 0,
+        "payloadKB": 40.2,
+        "storageCallsPerQuery": 3
+      },
+      "street": {
+        "mode": "street",
+        "resolution": 10,
+        "overlayResolution": 9,
+        "p50ms": 146.1,
+        "p95ms": 149.5,
+        "queriedCells": 93,
+        "returnedCells": 7,
+        "markers": 8,
+        "payloadKB": 11.8,
+        "storageCallsPerQuery": 14
+      },
+      "cache": {
+        "coldMs": 69.1,
+        "warmMs": 6.8
+      }
+    }
+  ],
+  "db": [
+    {
+      "reports": 2750,
+      "streetLiveSignals": {
+        "p50ms": 0.1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "neighborhoodAllStatuses": {
+        "p50ms": 1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "radius300m": {
+        "p50ms": 0.2,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "cityWideScanForComparison": {
+        "p50ms": 0.7,
+        "usesIndex": true,
+        "seqScan": false
+      }
+    },
+    {
+      "reports": 11000,
+      "streetLiveSignals": {
+        "p50ms": 0.1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "neighborhoodAllStatuses": {
+        "p50ms": 1.8,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "radius300m": {
+        "p50ms": 0.2,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "cityWideScanForComparison": {
+        "p50ms": 3.8,
+        "usesIndex": true,
+        "seqScan": false
+      }
+    },
+    {
+      "reports": 52000,
+      "streetLiveSignals": {
+        "p50ms": 0.1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "neighborhoodAllStatuses": {
+        "p50ms": 7,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "radius300m": {
+        "p50ms": 0.6,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "cityWideScanForComparison": {
+        "p50ms": 7,
+        "usesIndex": true,
+        "seqScan": false
+      }
+    },
+    {
+      "reports": 102000,
+      "streetLiveSignals": {
+        "p50ms": 0.1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "neighborhoodAllStatuses": {
+        "p50ms": 5.5,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "radius300m": {
+        "p50ms": 0.3,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "cityWideScanForComparison": {
+        "p50ms": 1.7,
+        "usesIndex": true,
+        "seqScan": false
+      }
+    },
+    {
+      "reports": 252000,
+      "streetLiveSignals": {
+        "p50ms": 0.1,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "neighborhoodAllStatuses": {
+        "p50ms": 13.2,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "radius300m": {
+        "p50ms": 1.7,
+        "usesIndex": true,
+        "seqScan": false
+      },
+      "cityWideScanForComparison": {
+        "p50ms": 5.6,
+        "usesIndex": true,
+        "seqScan": false
+      }
+    }
+  ],
+  "client": {
+    "movements": 1000,
+    "requestsStarted": 915,
+    "aborted": 914,
+    "completed": 200,
+    "cacheEntries": 24,
+    "cacheBound": 24,
+    "heapDeltaKB": 3,
+    "note": "Node heap (not a browser); debounce disabled to stress cancellation"
+  },
+  "finishedAt": "2026-11-20T14:04:43.212Z"
+}
