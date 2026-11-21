@@ -71,10 +71,10 @@ export default function ListMyParkingPage() {
   ];
 
   const useMyLocation = () => {
-    if (!("geolocation" in navigator)) return toast(L("Location isn't available in this browser.", "الموقع غير متاح في هذا المتصفح."), "error");
+    if (!("geolocation" in navigator)) return toast(L("Location isn't available in this browser.", "الموقع مو متاح في هذا المتصفح."), "error");
     navigator.geolocation.getCurrentPosition(
       (p) => setLocation({ lat: Number(p.coords.latitude.toFixed(6)), lng: Number(p.coords.longitude.toFixed(6)) }),
-      () => toast(L("Location permission denied.", "تم رفض إذن الموقع."), "error"),
+      () => toast(L("Location permission denied.", "رفضت إذن الموقع."), "error"),
       { enableHighAccuracy: true, timeout: 15_000 },
     );
   };
@@ -106,7 +106,7 @@ export default function ListMyParkingPage() {
           rules,
         },
       });
-      toast(L("Submitted! An administrator will verify your entitlement.", "تم الإرسال! سيتحقق المشرف من أحقيتك."), "ok");
+      toast(L("Submitted! An administrator will verify your entitlement.", "وصلنا طلبك! المشرف بيتحقق من أحقيتك."), "ok");
       router.push("/host");
     } catch (e) {
       toast(errorText(e), "error");
@@ -115,11 +115,11 @@ export default function ListMyParkingPage() {
     }
   };
 
-  if (!isDriver) return <Empty>{L("Pick a driver account (or sign in) to list your parking.", "اختر حساب سائق (أو سجّل الدخول) لإدراج موقفك.")}</Empty>;
+  if (!isDriver) return <Empty>{L("Pick a driver account (or sign in) to list your parking.", "اختر حساب سائق (أو سجّل دخولك) عشان تعرض موقفك.")}</Empty>;
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <PageHeader eyebrow="RAKNA HOME" title={L("List my parking", "أدرج موقفي")} subtitle={L("Rent out your idle villa carport or building bay — legally and privately.", "أجّر مظلة فيلتك أو موقف عمارتك غير المستخدم — نظاميًا وبخصوصية.")} />
+      <PageHeader eyebrow="RAKNA HOME" title={L("List my parking", "اعرض موقفي")} subtitle={L("Rent out your idle villa carport or building bay — legally and privately.", "أجّر مظلة فلتك أو موقف عمارتك اللي ما تستخدمه — نظامي وبخصوصية.")} />
 
       <ol className="flex flex-wrap gap-2" aria-label={L("Steps", "الخطوات")}>
         {STEPS.map((s, i) => (
@@ -135,7 +135,7 @@ export default function ListMyParkingPage() {
       <Card className="space-y-4">
         {step === 0 && (
           <>
-            <Field label={L("What are you listing?", "ماذا تدرج؟")}>
+            <Field label={L("What are you listing?", "وش بتعرض؟")}>
               <div className="grid gap-2 sm:grid-cols-2">
                 {CATEGORIES.map((c) => (
                   <button key={c} type="button" aria-pressed={category === c} onClick={() => pickCategory(c)} className={cn("rounded-xl border p-3 text-start text-sm font-semibold", category === c ? "border-forest bg-sage-soft text-forest" : "border-line")}>
@@ -144,9 +144,9 @@ export default function ListMyParkingPage() {
                 ))}
               </div>
             </Field>
-            {villa && <Notice tone="info">{L("Villa spaces join a waitlist until the municipal pilot opens villa bookings. You can still set everything up now.", "تنضم مواقف الفلل إلى قائمة انتظار حتى تفتح التجربة البلدية حجوزات الفلل. يمكنك إعداد كل شيء الآن.")}</Notice>}
-            {category === "condo_association" && <Notice tone="info">{L("Common-property building bays belong to all owners: only the owners' association (with a resolution) can list them.", "مواقف الأجزاء المشتركة ملك لجميع الملاك: لا يدرجها إلا اتحاد الملاك (بقرار).")}</Notice>}
-            <Field label={L("Your right to rent it out", "أحقيتك في التأجير")} hint={L("Documents are reviewed by an administrator; RAKNA never stores your deed or contract.", "يراجع المشرف المستندات؛ لا تحتفظ ركنة بصكك أو عقدك.")}>
+            {villa && <Notice tone="info">{L("Villa spaces join a waitlist until the municipal pilot opens villa bookings. You can still set everything up now.", "مواقف الفلل تنضم لقائمة انتظار لين تفتح التجربة البلدية حجوزات الفلل. تقدر تجهّز كل شي من الحين.")}</Notice>}
+            {category === "condo_association" && <Notice tone="info">{L("Common-property building bays belong to all owners: only the owners' association (with a resolution) can list them.", "مواقف الأجزاء المشتركة ملك لكل الملاك: ما يعرضها إلا اتحاد الملاك (بقرار منه).")}</Notice>}
+            <Field label={L("Your right to rent it out", "أحقيتك في التأجير")} hint={L("Documents are reviewed by an administrator; RAKNA never stores your deed or contract.", "المشرف يراجع المستندات؛ ركنة ما تحتفظ بصكك ولا عقدك.")}>
               <div className="grid gap-2">
                 {allowed.map((e) => (
                   <label key={e} className={cn("flex items-center gap-2 rounded-xl border p-3 text-sm", entitlement === e ? "border-forest bg-sage-mist" : "border-line")}>
@@ -158,8 +158,8 @@ export default function ListMyParkingPage() {
             </Field>
             {ejar && (
               <div className="space-y-2 rounded-xl border border-warn/30 bg-warn-soft p-3 text-sm">
-                <label className="flex gap-2"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />{L("I have my landlord's written consent to sub-let this parking space.", "لدي موافقة خطية من المالك على تأجير هذا الموقف من الباطن.")}</label>
-                <label className="flex gap-2"><input type="checkbox" checked={noSublet} onChange={(e) => setNoSublet(e.target.checked)} />{L("My Ejar contract does not prohibit sub-letting.", "عقد إيجار لا يمنع التأجير من الباطن.")}</label>
+                <label className="flex gap-2"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />{L("I have my landlord's written consent to sub-let this parking space.", "عندي موافقة مكتوبة من المالك على تأجير هذا الموقف من الباطن.")}</label>
+                <label className="flex gap-2"><input type="checkbox" checked={noSublet} onChange={(e) => setNoSublet(e.target.checked)} />{L("My Ejar contract does not prohibit sub-letting.", "عقد إيجار حقي ما يمنع التأجير من الباطن.")}</label>
               </div>
             )}
           </>
@@ -168,7 +168,7 @@ export default function ListMyParkingPage() {
         {step === 1 && (
           <>
             <Notice tone="info">
-              <span className="flex gap-1.5"><ShieldCheck className="h-4 w-4 shrink-0" aria-hidden />{L("Drivers see only a ~150 m area until they've paid. Your exact address is revealed only to a confirmed, paid driver from 30 minutes before their booking.", "يرى السائقون منطقة ~150 م فقط حتى الدفع. يظهر عنوانك الدقيق فقط لسائق مؤكد ومدفوع قبل ٣٠ دقيقة من حجزه.")}</span>
+              <span className="flex gap-1.5"><ShieldCheck className="h-4 w-4 shrink-0" aria-hidden />{L("Drivers see only a ~150 m area until they've paid. Your exact address is revealed only to a confirmed, paid driver from 30 minutes before their booking.", "السائقين يشوفون منطقة تقريبية ~150 م بس لين يدفعون. عنوانك الدقيق يطلع فقط لسائق حجزه مؤكد ومدفوع، قبل حجزه بـ ٣٠ دقيقة.")}</span>
             </Notice>
             <div className="flex flex-wrap gap-2">
               <Button type="button" size="sm" variant="secondary" onClick={useMyLocation}><Crosshair className="h-4 w-4" aria-hidden />{L("Use my current location", "استخدم موقعي الحالي")}</Button>
@@ -180,16 +180,16 @@ export default function ListMyParkingPage() {
               <Field label={L("Latitude", "خط العرض")}><input type="number" step="0.000001" dir="ltr" className={inputCls} value={location?.lat ?? ""} onChange={(e) => setLocation({ lat: Number(e.target.value), lng: location?.lng ?? 46.67 })} /></Field>
               <Field label={L("Longitude", "خط الطول")}><input type="number" step="0.000001" dir="ltr" className={inputCls} value={location?.lng ?? ""} onChange={(e) => setLocation({ lat: location?.lat ?? 24.71, lng: Number(e.target.value) })} /></Field>
             </div>
-            <Field label={L("Address (English)", "العنوان (بالإنجليزية)")}><input className={inputCls} value={address} onChange={(e) => setAddress(e.target.value)} maxLength={200} /></Field>
-            <Field label={L("Address (Arabic)", "العنوان (بالعربية)")}><input className={inputCls} dir="rtl" value={addressAr} onChange={(e) => setAddressAr(e.target.value)} maxLength={200} /></Field>
+            <Field label={L("Address (English)", "العنوان (بالإنجليزي)")}><input className={inputCls} value={address} onChange={(e) => setAddress(e.target.value)} maxLength={200} /></Field>
+            <Field label={L("Address (Arabic)", "العنوان (بالعربي)")}><input className={inputCls} dir="rtl" value={addressAr} onChange={(e) => setAddressAr(e.target.value)} maxLength={200} /></Field>
           </>
         )}
 
         {step === 2 && (
           <>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label={L("Title (English)", "العنوان المختصر (بالإنجليزية)")}><input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={120} placeholder="Basement bay B-14" /></Field>
-              <Field label={L("Title (Arabic)", "العنوان المختصر (بالعربية)")}><input className={inputCls} dir="rtl" value={titleAr} onChange={(e) => setTitleAr(e.target.value)} maxLength={120} placeholder="موقف القبو B-14" /></Field>
+              <Field label={L("Title (English)", "اسم الموقف (بالإنجليزي)")}><input className={inputCls} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={120} placeholder="Basement bay B-14" /></Field>
+              <Field label={L("Title (Arabic)", "اسم الموقف (بالعربي)")}><input className={inputCls} dir="rtl" value={titleAr} onChange={(e) => setTitleAr(e.target.value)} maxLength={120} placeholder="موقف القبو B-14" /></Field>
             </div>
             <Field label={L("Shade", "التظليل")}>
               <div className="flex flex-wrap gap-2">{SHADES.map((s) => <button key={s} type="button" aria-pressed={shade === s} onClick={() => setShade(s)} className={cn("rounded-lg border px-3 py-1.5 text-xs font-semibold", shade === s ? "border-forest bg-forest text-white" : "border-line")}>{B(SHADE_LABEL[s])}</button>)}</div>
@@ -199,14 +199,14 @@ export default function ListMyParkingPage() {
               <Field label={L("Width (cm)", "العرض (سم)")}><input type="number" dir="ltr" className={inputCls} value={dims.w} onChange={(e) => setDims({ ...dims, w: e.target.value })} /></Field>
               <Field label={L("Length (cm)", "الطول (سم)")}><input type="number" dir="ltr" className={inputCls} value={dims.l} onChange={(e) => setDims({ ...dims, l: e.target.value })} /></Field>
             </div>
-            <Field label={L("How does the driver get in?", "كيف يدخل السائق؟")} hint={L("PIN / QR / guard codes are generated per booking and expire automatically.", "تُنشأ رموز البوابة/QR/الحارس لكل حجز وتنتهي تلقائيًا.")}>
+            <Field label={L("How does the driver get in?", "كيف يدخل السائق؟")} hint={L("PIN / QR / guard codes are generated per booking and expire automatically.", "رموز البوابة/QR/الحارس تنسوّى لكل حجز وتنتهي تلقائيًا.")}>
               <select className={inputCls} value={access} onChange={(e) => setAccess(e.target.value as AccessMode)}>{ACCESS.map((a) => <option key={a} value={a}>{B(ACCESS_MODE_LABEL[a])}</option>)}</select>
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label={L("Turnaround buffer (minutes)", "وقت التجهيز بين الحجوزات (دقائق)")}><input type="number" min={0} max={120} dir="ltr" className={inputCls} value={buffer} onChange={(e) => setBuffer(Math.round(Number(e.target.value)))} /></Field>
+              <Field label={L("Turnaround buffer (minutes)", "وقت التجهيز بين الحجوزات (دقايق)")}><input type="number" min={0} max={120} dir="ltr" className={inputCls} value={buffer} onChange={(e) => setBuffer(Math.round(Number(e.target.value)))} /></Field>
               <Field label={L("Nearby Metro station (Park & Connect)", "محطة مترو قريبة (اركن واتصل)")}>
                 <select className={inputCls} value={metro} onChange={(e) => setMetro(e.target.value)}>
-                  <option value="">{L("None", "لا يوجد")}</option>
+                  <option value="">{L("None", "ما فيه")}</option>
                   {DEMO_METRO_STATIONS.map((m) => <option key={m.code} value={m.code}>{lang === "ar" ? m.nameAr : m.name}</option>)}
                 </select>
               </Field>
@@ -220,8 +220,8 @@ export default function ListMyParkingPage() {
           <>
             <RuleEditor rules={rules} onChange={setRules} />
             <div className="rounded-xl bg-gold-soft p-3 text-sm text-gold">
-              {L("Illustrative monthly net at 30% occupancy", "صافي شهري توضيحي عند إشغال 30%")}: <span className="num font-bold">{formatHalalas(estimate, lang)}</span>
-              <p className="mt-1 text-[11px] text-ink-2">{L("You keep 85% of the base fare (15% commission). Drivers pay a separate 5% service fee + VAT on platform fees. Estimates are not guarantees.", "تحصل على 85% من الأجرة الأساسية (عمولة 15%). يدفع السائق رسوم خدمة 5% منفصلة + ضريبة على رسوم المنصة. التقديرات ليست ضمانًا.")}</p>
+              {L("Illustrative monthly net at 30% occupancy", "صافي شهري تقريبي إذا كان الإشغال 30%")}: <span className="num font-bold">{formatHalalas(estimate, lang)}</span>
+              <p className="mt-1 text-[11px] text-ink-2">{L("You keep 85% of the base fare (15% commission). Drivers pay a separate 5% service fee + VAT on platform fees. Estimates are not guarantees.", "لك 85% من الأجرة الأساسية (العمولة 15%). السائق يدفع رسوم خدمة 5% لحالها + ضريبة على رسوم المنصة. هذي تقديرات وليست ضمان.")}</p>
             </div>
           </>
         )}
@@ -240,7 +240,7 @@ export default function ListMyParkingPage() {
             <ul className="space-y-2">{rules.map((r, i) => <RuleSummary key={i} rule={r} />)}</ul>
             <label className="flex gap-2 rounded-xl border border-line p-3 text-sm">
               <input type="checkbox" checked={attest} onChange={(e) => setAttest(e.target.checked)} />
-              {L("I confirm the information is accurate and that I'm entitled to rent out this space. I'll provide my deed, wakalah, Ejar consent or association resolution to the RAKNA administrator on request.", "أؤكد صحة المعلومات وأحقيتي في تأجير هذا الموقف، وسأقدم الصك أو الوكالة أو موافقة إيجار أو قرار الاتحاد لمشرف ركنة عند الطلب.")}
+              {L("I confirm the information is accurate and that I'm entitled to rent out this space. I'll provide my deed, wakalah, Ejar consent or association resolution to the RAKNA administrator on request.", "أقرّ إن المعلومات صحيحة وإن لي الحق في تأجير هذا الموقف، وأتعهد أقدّم الصك أو الوكالة أو موافقة المالك في إيجار أو قرار الاتحاد لمشرف ركنة إذا طلبها.")}
             </label>
           </>
         )}

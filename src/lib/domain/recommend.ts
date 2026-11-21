@@ -111,7 +111,7 @@ export function parseRequest(text: string, now: Date): ParsedRequest {
 
   // Budget
   let budgetSar: number | null = null;
-  const b = t.match(/(\d+(?:\.\d+)?)\s*(sar|riyals?|rial|sr\b)/) ?? raw.match(/(\d+(?:\.\d+)?)\s*(ريال|ر\.?\s?س)/) ?? t.match(/budget\s+(?:of\s+)?(\d+(?:\.\d+)?)/) ?? raw.match(/ميزاني[ةه]\s*(\d+(?:\.\d+)?)/);
+  const b = t.match(/(\d+(?:\.\d+)?)\s*(sar|riyals?|rial|sr\b)/) ?? raw.match(/(\d+(?:\.\d+)?)\s*(ريال|ر\.?\s?س)/) ?? t.match(/budget\s+(?:of\s+)?(\d+(?:\.\d+)?)/) ?? raw.match(/ميزاني(?:[ةه]|تي)\s*(\d+(?:\.\d+)?)/);
   if (b) {
     budgetSar = Number(b[1]);
     understood.push("budget");
@@ -123,10 +123,10 @@ export function parseRequest(text: string, now: Date): ParsedRequest {
   if (w) {
     maxWalkM = Number(w[1]);
     understood.push("walk");
-  } else if (/short walk|very close|close by|قريب جدا|قريب جداً|مشي قليل/.test(t)) {
+  } else if (/short walk|very close|close by|قريب جدا|قريب جداً|مشي قليل|قريب مره|قريب مرة|قريب حيل|مشي شوي/.test(t)) {
     maxWalkM = 400;
     understood.push("walk");
-  } else if (/walking distance|reasonable walk|مسافة مشي|مسافة معقولة/.test(t)) {
+  } else if (/walking distance|reasonable walk|مسافة مشي|مسافة معقولة|مشي معقول/.test(t)) {
     maxWalkM = 800;
     understood.push("walk");
   }
@@ -188,21 +188,21 @@ export function rankParking({ parsed, spaces, signals, now }: RankInput): RankOu
     if (d !== null) {
       reasons.push(
         d <= parsed.maxWalkM
-          ? { en: `About ${Math.round(d)} m from your destination — within your walking range.`, ar: `على بُعد نحو ${Math.round(d)} م من وجهتك — ضمن مسافة المشي التي حددتها.` }
-          : { en: `About ${Math.round(d)} m away — a longer walk than you asked for.`, ar: `على بُعد نحو ${Math.round(d)} م — أبعد قليلًا مما طلبت.` },
+          ? { en: `About ${Math.round(d)} m from your destination — within your walking range.`, ar: `على بعد حوالي ${Math.round(d)} م من وجهتك — ضمن مسافة المشي اللي حددتها.` }
+          : { en: `About ${Math.round(d)} m away — a longer walk than you asked for.`, ar: `على بعد حوالي ${Math.round(d)} م — أبعد شوي من اللي طلبته.` },
       );
     }
     if (parsed.budgetSar !== null) {
       reasons.push(
         price <= parsed.budgetSar
-          ? { en: `${price} SAR for ${parsed.durationHours} h, within your ${parsed.budgetSar} SAR budget.`, ar: `${price} ريال لمدة ${parsed.durationHours} ساعة، ضمن ميزانيتك ${parsed.budgetSar} ريال.` }
-          : { en: `${price} SAR for ${parsed.durationHours} h — above your ${parsed.budgetSar} SAR budget.`, ar: `${price} ريال لمدة ${parsed.durationHours} ساعة — أعلى من ميزانيتك ${parsed.budgetSar} ريال.` },
+          ? { en: `${price} SAR for ${parsed.durationHours} h, within your ${parsed.budgetSar} SAR budget.`, ar: `${price} ريال لمدة ${parsed.durationHours} ساعة، داخل ميزانيتك ${parsed.budgetSar} ريال.` }
+          : { en: `${price} SAR for ${parsed.durationHours} h — above your ${parsed.budgetSar} SAR budget.`, ar: `${price} ريال لمدة ${parsed.durationHours} ساعة — فوق ميزانيتك ${parsed.budgetSar} ريال.` },
       );
     } else {
       reasons.push({ en: `${price} SAR for ${parsed.durationHours} h.`, ar: `${price} ريال لمدة ${parsed.durationHours} ساعة.` });
     }
-    reasons.push({ en: `Approved private space, open at your arrival time, ${freeCapacity} of ${space.capacity} spots unbooked.`, ar: `موقف خاص معتمد، مفتوح وقت وصولك، ${freeCapacity} من ${space.capacity} غير محجوزة.` });
-    if (space.rewardEligible) reasons.push({ en: "Eligible for RAKNA KEYS parking discounts.", ar: "مؤهل لخصومات مفاتيح ركنة." });
+    reasons.push({ en: `Approved private space, open at your arrival time, ${freeCapacity} of ${space.capacity} spots unbooked.`, ar: `موقف خاص معتمد، مفتوح وقت وصولك، ${freeCapacity} من ${space.capacity} فاضية.` });
+    if (space.rewardEligible) reasons.push({ en: "Eligible for RAKNA KEYS parking discounts.", ar: "يقبل خصومات مفاتيح ركنة." });
 
     results.push({ kind: "private", id: space.id, title: space.title, titleAr: space.titleAr, location: space.location, distanceM: d === null ? null : Math.round(d), priceTotal: price, score, bookable: true, guaranteed: "subject_to_availability", reasons });
   }
@@ -216,25 +216,25 @@ export function rankParking({ parsed, spaces, signals, now }: RankInput): RankOu
       const walkScore = d === null ? 0.6 : Math.max(0, 1 - d / (parsed.maxWalkM * 2));
       const score = Math.round((confScore * 0.55 + walkScore * 0.35 + 0.1) * 70); // capped below private results of equal fit
       const reasons: Reason[] = [
-        { en: "Community signal: another driver says they are leaving. Not a booking and not guaranteed.", ar: "إشارة مجتمعية: سائق آخر أفاد بأنه سيغادر. ليست حجزًا وغير مضمونة." },
+        { en: "Community signal: another driver says they are leaving. Not a booking and not guaranteed.", ar: "إشارة مجتمعية: سائق ثاني قال إنه بيطلع. مو حجز ومو مضمونة." },
         { en: `${confidence.level[0].toUpperCase()}${confidence.level.slice(1)} confidence (${confidence.score}/100).`, ar: `ثقة ${confidence.level === "high" ? "عالية" : confidence.level === "medium" ? "متوسطة" : "منخفضة"} (${confidence.score}/100).` },
       ];
-      if (d !== null) reasons.push({ en: `About ${Math.round(d)} m from your destination.`, ar: `على بُعد نحو ${Math.round(d)} م من وجهتك.` });
+      if (d !== null) reasons.push({ en: `About ${Math.round(d)} m from your destination.`, ar: `على بعد حوالي ${Math.round(d)} م من وجهتك.` });
       results.push({ kind: "community", id: report.id, title: "Community parking signal", titleAr: "إشارة موقف مجتمعية", location: report.location, distanceM: d === null ? null : Math.round(d), priceTotal: null, score, bookable: false, guaranteed: false, confidence: confidence.level, reasons });
     }
   } else {
     notes.push({
       en: "Community signals last about 20 minutes, so they can't be planned ahead. Check the map when you're close to arrival.",
-      ar: "الإشارات المجتمعية تدوم نحو 20 دقيقة فقط، لذا لا يمكن التخطيط لها مسبقًا. راجع الخريطة عند اقترابك من الوصول.",
+      ar: "الإشارات المجتمعية تدوم حوالي 20 دقيقة بس، فما ينفع تخطط لها من بدري. شيّك الخريطة إذا قربت توصل.",
     });
   }
 
   if (!parsed.destination) {
-    notes.push({ en: "No destination recognized — results are ranked by price and availability across Riyadh.", ar: "لم نتعرف على الوجهة — رُتبت النتائج حسب السعر والتوفر في الرياض." });
+    notes.push({ en: "No destination recognized — results are ranked by price and availability across Riyadh.", ar: "ما عرفنا الوجهة — رتّبنا النتايج حسب السعر والتوفر في الرياض." });
   }
   const { hour } = riyadhParts(new Date(parsed.arrival));
   if (results.length === 0) {
-    notes.push({ en: `No approved space matches at ${String(hour).padStart(2, "0")}:00 with these preferences. Try a longer walk or a different time.`, ar: `لا توجد مواقف معتمدة مطابقة عند الساعة ${hour} بهذه التفضيلات. جرّب مسافة مشي أطول أو وقتًا آخر.` });
+    notes.push({ en: `No approved space matches at ${String(hour).padStart(2, "0")}:00 with these preferences. Try a longer walk or a different time.`, ar: `ما فيه مواقف معتمدة تناسب الساعة ${hour} بهذي التفضيلات. جرّب مسافة مشي أطول أو وقت ثاني.` });
   }
   void now;
   results.sort((a, b) => b.score - a.score);

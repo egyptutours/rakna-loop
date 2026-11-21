@@ -28,7 +28,7 @@ export function RuleSummary({ rule }: { rule: { weekdayMask: number; startMinute
       <span className="num text-ink-2" dir="ltr">{minutesLabel(rule.startMinute)}–{minutesLabel(rule.endMinute)}</span>
       <span className="num font-semibold text-forest">{formatHalalas(rule.hourlyRateHalalas, lang)}/{L("h", "س")}</span>
       {rule.dailyCapHalalas !== null && <span className="text-mute">{L("daily cap", "حد يومي")} <span className="num">{formatHalalas(rule.dailyCapHalalas, lang)}</span></span>}
-      {rule.multiDayDiscountBps > 0 && <span className="text-mute">{L(`${rule.multiDayDiscountBps / 100}% off 5+ days`, `خصم ${rule.multiDayDiscountBps / 100}% لخمسة أيام+`)}</span>}
+      {rule.multiDayDiscountBps > 0 && <span className="text-mute">{L(`${rule.multiDayDiscountBps / 100}% off 5+ days`, `خصم ${rule.multiDayDiscountBps / 100}% لـ5 أيام وأكثر`)}</span>}
     </li>
   );
 }
@@ -47,7 +47,7 @@ export function FareTable({ fare, showHost }: { fare: FareBreakdown; showHost?: 
       {row(L("Parking (base fare)", "الموقف (الأجرة الأساسية)"), fare.baseFareHalalas)}
       {row(L("Service fee (5%)", "رسوم الخدمة (5%)"), fare.driverFeeHalalas)}
       {row(L("VAT 15% on platform fee", "ضريبة القيمة المضافة 15% على رسوم المنصة"), fare.vatOnPlatformFeeHalalas)}
-      {fare.keysDiscountHalalas > 0 && row(L("RAKNA KEYS discount (platform fee)", "خصم مفاتيح ركنة (رسوم المنصة)"), fare.keysDiscountHalalas, "text-gold", "−")}
+      {fare.keysDiscountHalalas > 0 && row(L("RAKNA KEYS discount (platform fee)", "خصم مفاتيح ركنة (من رسوم المنصة)"), fare.keysDiscountHalalas, "text-gold", "−")}
       {row(L("Total", "الإجمالي"), fare.driverTotalHalalas, "font-bold text-forest")}
       {showHost && row(L("Host receives (85% of base)", "يستلم المضيف (85% من الأساس)"), fare.hostNetPayoutHalalas, "text-xs text-mute")}
     </dl>

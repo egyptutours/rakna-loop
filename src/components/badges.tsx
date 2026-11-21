@@ -6,10 +6,10 @@ import { cn } from "./ui";
 import type { Badge, BadgeId } from "@/lib/domain/community";
 
 const META: Record<BadgeId, { icon: typeof Crown; en: string; ar: string; descEn: string; descAr: string }> = {
-  first_helper: { icon: HandHeart, en: "First Helper", ar: "المساعد الأول", descEn: "Your first verified handoff", descAr: "أول تسليم موثّق لك" },
-  reliable_driver: { icon: ShieldCheck, en: "Reliable Driver", ar: "السائق الموثوق", descEn: "5 handoffs, 80%+ reliability", descAr: "5 تسليمات بموثوقية 80%+" },
-  parking_explorer: { icon: Compass, en: "Parking Explorer", ar: "مستكشف المواقف", descEn: "Confirmed spots in 3 neighborhoods", descAr: "تأكيدات في 3 أحياء" },
-  community_champion: { icon: Crown, en: "Community Champion", ar: "بطل المجتمع", descEn: "10 verified contributions", descAr: "10 مساهمات موثقة" },
+  first_helper: { icon: HandHeart, en: "First Helper", ar: "أول فزعة", descEn: "Your first verified handoff", descAr: "أول تسليم موثّق لك" },
+  reliable_driver: { icon: ShieldCheck, en: "Reliable Driver", ar: "السائق اللي يُعتمد عليه", descEn: "5 handoffs, 80%+ reliability", descAr: "5 تسليمات بموثوقية 80%+" },
+  parking_explorer: { icon: Compass, en: "Parking Explorer", ar: "خبير المواقف", descEn: "Confirmed spots in 3 neighborhoods", descAr: "تأكيدات في 3 أحياء" },
+  community_champion: { icon: Crown, en: "Community Champion", ar: "فزّاع الحي", descEn: "10 verified contributions", descAr: "10 مساهمات موثقة" },
   mobility_hero: { icon: TrainFront, en: "Riyadh Mobility Hero", ar: "بطل التنقل في الرياض", descEn: "A Park & Connect mission + 3 handoffs", descAr: "مهمة اركن واتصل + 3 تسليمات" },
 };
 

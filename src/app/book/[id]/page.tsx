@@ -75,7 +75,7 @@ export default function BookSpacePage() {
     setBusy(true);
     try {
       const r = await api<{ booking: { id: string } }>("/api/home/bookings", { body: { spaceId: space.id, ...slot, rewardId: rewardId || null } });
-      toast(L("Booked! Your pass unlocks 30 minutes before the start.", "تم الحجز! يظهر تصريحك قبل ٣٠ دقيقة من البداية."), "ok");
+      toast(L("Booked! Your pass unlocks 30 minutes before the start.", "تم الحجز، أبشر! تصريحك يطلع قبل البداية بـ ٣٠ دقيقة."), "ok");
       router.push(`/bookings?new=${r.booking.id}`);
     } catch (e) {
       toast(errorText(e), "error");
@@ -85,7 +85,7 @@ export default function BookSpacePage() {
   };
 
   if (space === undefined) return <Skeleton className="h-96" />;
-  if (space === null) return <Empty>{L("This space isn't available.", "هذا الموقف غير متاح.")} <ButtonLink href="/" variant="ghost">{L("Back to the map", "العودة للخريطة")}</ButtonLink></Empty>;
+  if (space === null) return <Empty>{L("This space isn't available.", "هذا الموقف مو متاح.")} <ButtonLink href="/" variant="ghost">{L("Back to the map", "ارجع للخريطة")}</ButtonLink></Empty>;
 
   const eligible = space.rewardEligible ? rewards : [];
 
@@ -101,19 +101,19 @@ export default function BookSpacePage() {
 
         {space.approximate && (
           <Notice tone="info">
-            {L("To protect the host's privacy the map shows a ~150 m area. The exact bay, address and your gate pass are revealed in My Bookings & Passes after payment, from 30 minutes before your start time.", "لحماية خصوصية المضيف تعرض الخريطة منطقة ~150 م. يظهر الموقف الدقيق والعنوان وتصريح الدخول في «حجوزاتي وتصاريحي» بعد الدفع، قبل ٣٠ دقيقة من موعدك.")}
+            {L("To protect the host's privacy the map shows a ~150 m area. The exact bay, address and your gate pass are revealed in My Bookings & Passes after payment, from 30 minutes before your start time.", "عشان نحمي خصوصية المضيف، الخريطة تعرض منطقة تقريبية ~150 م. الموقف الدقيق والعنوان وتصريح الدخول يطلعون في «حجوزاتي وتصاريحي» بعد الدفع، قبل موعدك بـ ٣٠ دقيقة.")}
           </Notice>
         )}
 
         <Card className="space-y-3">
-          <h2 className="font-bold">{L("Availability & prices", "التوفر والأسعار")}</h2>
+          <h2 className="font-bold">{L("Availability & prices", "الأوقات والأسعار")}</h2>
           <ul className="space-y-2">{(space.rules ?? []).map((r, i) => <RuleSummary key={i} rule={r} />)}</ul>
           <div className="flex flex-wrap gap-2 text-xs">
             {space.shadeTier && <Pill>{B(SHADE_LABEL[space.shadeTier])}</Pill>}
             {space.accessMode && <Pill><Lock className="h-3 w-3" aria-hidden />{B(ACCESS_MODE_LABEL[space.accessMode])}</Pill>}
             {space.maxHeightCm && <Pill><Ruler className="h-3 w-3" aria-hidden />{L(`Max height ${space.maxHeightCm / 100} m`, `أقصى ارتفاع ${space.maxHeightCm / 100} م`)}</Pill>}
             {(space.bufferMinutes ?? 0) > 0 && <Pill>{L(`${space.bufferMinutes} min turnaround between bookings`, `${space.bufferMinutes} د بين الحجوزات`)}</Pill>}
-            {space.metro && <Pill tone="signal"><TrainFront className="h-3 w-3" aria-hidden />{L(`Park & Connect: ${space.metro.walkMinutes} min walk to ${space.metro.name}`, `اركن واتصل: ${space.metro.walkMinutes} د مشيًا إلى ${space.metro.nameAr}`)}</Pill>}
+            {space.metro && <Pill tone="signal"><TrainFront className="h-3 w-3" aria-hidden />{L(`Park & Connect: ${space.metro.walkMinutes} min walk to ${space.metro.name}`, `اركن واتصل: ${space.metro.walkMinutes} د مشي لـ${space.metro.nameAr}`)}</Pill>}
           </div>
           {(lang === "ar" ? space.conditionsAr : space.conditions) && <p className="text-xs leading-relaxed text-ink-2">{lang === "ar" ? space.conditionsAr : space.conditions}</p>}
         </Card>
@@ -121,18 +121,18 @@ export default function BookSpacePage() {
 
       <Card className="h-fit space-y-4 lg:sticky lg:top-24">
         {space.waitlist ? (
-          <Notice>{L("Villa bookings open after the municipal pilot approval. This space is on the waitlist.", "تُفتح حجوزات الفلل بعد اعتماد التجربة البلدية. هذا الموقف في قائمة الانتظار.")}</Notice>
+          <Notice>{L("Villa bookings open after the municipal pilot approval. This space is on the waitlist.", "حجوزات الفلل تنفتح بعد اعتماد التجربة البلدية. هذا الموقف في قائمة الانتظار.")}</Notice>
         ) : (
           <>
             <h2 className="font-bold">{L("Your booking", "حجزك")}</h2>
             <Field label={L("Start (Riyadh time)", "البداية (بتوقيت الرياض)")}>
               <input type="datetime-local" step={900} value={start} onChange={(e) => setStart(e.target.value)} className={inputCls} dir="ltr" />
             </Field>
-            <Field label={L("End (Riyadh time)", "النهاية (بتوقيت الرياض)")} hint={L("30 minutes to 30 days.", "من ٣٠ دقيقة إلى ٣٠ يومًا.")}>
+            <Field label={L("End (Riyadh time)", "النهاية (بتوقيت الرياض)")} hint={L("30 minutes to 30 days.", "من ٣٠ دقيقة إلى ٣٠ يوم.")}>
               <input type="datetime-local" step={900} value={end} onChange={(e) => setEnd(e.target.value)} className={inputCls} dir="ltr" />
             </Field>
             {eligible.length > 0 && (
-              <Field label={L("RAKNA KEYS discount", "خصم مفاتيح ركنة")} hint={L("Keys reduce the platform fee only (max 20% of it). The host's payout is never reduced and Keys have no cash value.", "تخفض المفاتيح رسوم المنصة فقط (حتى 20% منها). لا ينقص مستحق المضيف أبدًا ولا قيمة نقدية للمفاتيح.")}>
+              <Field label={L("RAKNA KEYS discount", "خصم مفاتيح ركنة")} hint={L("Keys reduce the platform fee only (max 20% of it). The host's payout is never reduced and Keys have no cash value.", "المفاتيح تخصم من رسوم المنصة فقط (لين 20% منها). مستحق المضيف ما ينقص أبدًا، والمفاتيح ما لها قيمة نقدية.")}>
                 <select value={rewardId} onChange={(e) => setRewardId(e.target.value)} className={inputCls}>
                   <option value="">{L("No discount", "بدون خصم")}</option>
                   {eligible.map((r) => (
@@ -143,9 +143,9 @@ export default function BookSpacePage() {
             )}
             {quote ? <FareTable fare={quote.fare} showHost /> : quoteErr ? <Notice tone="danger">{quoteErr}</Notice> : <Skeleton className="h-32" />}
             <Button variant="private" size="lg" className="w-full" onClick={book} loading={busy} disabled={!isDriver || !quote}>
-              {isDriver ? L("Pay & book (simulated)", "ادفع واحجز (محاكاة)") : L("Sign in as a driver to book", "سجّل الدخول كسائق للحجز")}
+              {isDriver ? L("Pay & book (simulated)", "ادفع واحجز (محاكاة)") : L("Sign in as a driver to book", "سجّل دخولك كسائق عشان تحجز")}
             </Button>
-            <p className="text-[11px] leading-snug text-mute">{L("Overstay beyond a 10-minute grace period is charged at 1.5× the hourly rate. You can extend from your pass.", "يُحتسب التجاوز بعد مهلة ١٠ دقائق بـ 1.5× سعر الساعة. يمكنك التمديد من التصريح.")}</p>
+            <p className="text-[11px] leading-snug text-mute">{L("Overstay beyond a 10-minute grace period is charged at 1.5× the hourly rate. You can extend from your pass.", "التأخير بعد مهلة ١٠ دقايق ينحسب بـ 1.5× سعر الساعة. تقدر تمدد من التصريح.")}</p>
           </>
         )}
       </Card>

@@ -14,9 +14,9 @@ import { fmtSar } from "@/lib/client/format";
 
 const ROLE: Record<ActivityRole, { en: string; ar: string; descEn: string; descAr: string }> = {
   scout: { en: "Scout", ar: "كشّاف", descEn: "You shared a parking opportunity.", descAr: "شاركت فرصة موقف." },
-  forager: { en: "Forager", ar: "باحث", descEn: "You're looking for parking.", descAr: "أنت تبحث عن موقف." },
-  verifier: { en: "Verifier", ar: "مُتحقق", descEn: "Confirm the outcome when you arrive.", descAr: "أكّد النتيجة عند وصولك." },
-  steward: { en: "Hive steward", ar: "راعي الخلية", descEn: "You maintain local parking resources.", descAr: "أنت ترعى موارد المواقف المحلية." },
+  forager: { en: "Forager", ar: "باحث", descEn: "You're looking for parking.", descAr: "أنت تدوّر موقف." },
+  verifier: { en: "Verifier", ar: "مُتحقق", descEn: "Confirm the outcome when you arrive.", descAr: "أكّد النتيجة إذا وصلت." },
+  steward: { en: "Hive steward", ar: "راعي الخلية", descEn: "You maintain local parking resources.", descAr: "أنت تهتم بمواقف حيّك." },
 };
 
 export function HiveStateChip({ state }: { state: HiveState }) {
@@ -71,26 +71,26 @@ export function HivePanel({ focus, role, searchAt, isDriver }: { focus: (CellSum
         <p className="flex items-center gap-1.5 text-sm font-bold text-forest"><Hexagon className="h-4 w-4 fill-gold/30 text-gold" aria-hidden />{L("Local hive", "الخلية المحلية")}</p>
         {focus && <HiveStateChip state={focus.state} />}
       </div>
-      {r && <p className="mt-1 text-[11px] text-mute">{L("Your role now", "دورك الآن")}: <strong className="text-ink">{lang === "ar" ? r.ar : r.en}</strong> — {lang === "ar" ? r.descAr : r.descEn}</p>}
+      {r && <p className="mt-1 text-[11px] text-mute">{L("Your role now", "دورك الحين")}: <strong className="text-ink">{lang === "ar" ? r.ar : r.en}</strong> — {lang === "ar" ? r.descAr : r.descEn}</p>}
       {focus && (
         <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-xl bg-card p-2"><dt className="text-[10px] text-mute">{L("Live signals", "إشارات حية")}</dt><dd className="num text-base font-bold text-signal">{focus.supply.signals}</dd></div>
+          <div className="rounded-xl bg-card p-2"><dt className="text-[10px] text-mute">{L("Live signals", "إشارات حيّة")}</dt><dd className="num text-base font-bold text-signal">{focus.supply.signals}</dd></div>
           <div className="rounded-xl bg-card p-2"><dt className="text-[10px] text-mute">{L("Searches/h", "بحث/ساعة")}</dt><dd className="num text-base font-bold text-warn">{focus.demand.searches}</dd></div>
           <div className="rounded-xl bg-card p-2"><dt className="text-[10px] text-mute">{L("Found rate", "نسبة النجاح")}</dt><dd className="num text-base font-bold text-private">{focus.trail.samples >= 1 ? `${Math.round(focus.trail.score * 100)}%` : "—"}</dd></div>
         </dl>
       )}
-      {focus && focus.supply.privateFree > 0 && <p className="mt-2 text-[11px] text-mute">{L(`${focus.supply.privateFree} private bays free in approved spaces nearby.`, `${focus.supply.privateFree} موقفًا خاصًا متاحًا في مواقف معتمدة قريبة.`)}</p>}
+      {focus && focus.supply.privateFree > 0 && <p className="mt-2 text-[11px] text-mute">{L(`${focus.supply.privateFree} private bays free in approved spaces nearby.`, `${focus.supply.privateFree} موقف خاص فاضي في مواقف معتمدة قريبة.`)}</p>}
 
       {isDriver && (
         <div className="mt-3 space-y-2">
           <label className="flex items-center gap-2 text-xs text-ink-2">
             <input type="checkbox" checked={accessible} onChange={(e) => setAccessible(e.target.checked)} className="h-4 w-4" />
-            <Accessibility className="h-3.5 w-3.5" aria-hidden />{L("I need an accessible bay", "أحتاج موقفًا لذوي الإعاقة")}
+            <Accessibility className="h-3.5 w-3.5" aria-hidden />{L("I need an accessible bay", "أحتاج موقف لذوي الإعاقة")}
           </label>
           <Button variant="secondary" size="sm" className="w-full" onClick={forage} loading={busy}>
-            <Search className="h-4 w-4" aria-hidden />{L("I'm looking for parking here", "أبحث عن موقف هنا")}
+            <Search className="h-4 w-4" aria-hidden />{L("I'm looking for parking here", "أدوّر موقف هنا")}
           </Button>
-          <p className="text-[10px] leading-snug text-mute">{L("Adds one anonymous search to this hive's demand (no name or exact location stored).", "يضيف طلب بحث واحدًا مجهول الهوية لطلب هذه الخلية (دون اسم أو موقع دقيق).")}</p>
+          <p className="text-[10px] leading-snug text-mute">{L("Adds one anonymous search to this hive's demand (no name or exact location stored).", "يضيف طلب بحث واحد بدون هوية لطلب هذي الخلية (بدون اسم ولا موقع دقيق).")}</p>
         </div>
       )}
 
@@ -109,7 +109,7 @@ export function HivePanel({ focus, role, searchAt, isDriver }: { focus: (CellSum
           ))}
           {res.neighborAlternatives.length > 0 && (
             <div className="rounded-xl bg-sage-mist p-2.5 text-[11px]">
-              <p className="mb-1 font-semibold">{L("Neighboring hives with spare supply", "خلايا مجاورة فيها فائض")}</p>
+              <p className="mb-1 font-semibold">{L("Neighboring hives with spare supply", "خلايا قريبة فيها فائض")}</p>
               <div className="flex flex-wrap gap-1">{res.neighborAlternatives.map((n) => <HiveStateChip key={n.cell} state={n.state} />)}</div>
             </div>
           )}
@@ -122,7 +122,7 @@ export function HivePanel({ focus, role, searchAt, isDriver }: { focus: (CellSum
           {res.transitAlternatives.map((t) => (
             <div key={t.name} className="flex items-start gap-2 rounded-xl border border-line bg-card p-2.5 text-xs">
               <TrainFront className="mt-0.5 h-4 w-4 shrink-0 text-forest" aria-hidden />
-              <span>{lang === "ar" ? t.nameAr : t.name} · <span className="num">{t.distanceM} m</span><br /><span className="text-mute">{L("Illustrative demo point — no live transit data.", "نقطة توضيحية تجريبية — لا بيانات نقل حية.")}</span></span>
+              <span>{lang === "ar" ? t.nameAr : t.name} · <span className="num">{t.distanceM} m</span><br /><span className="text-mute">{L("Illustrative demo point — no live transit data.", "نقطة توضيحية تجريبية — ما فيه بيانات نقل حيّة.")}</span></span>
             </div>
           ))}
         </div>

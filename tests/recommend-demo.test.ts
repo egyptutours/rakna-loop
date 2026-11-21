@@ -31,6 +31,16 @@ describe("AI parking assistant — deterministic understanding", () => {
     expect(p.budgetSar).toBe(20);
   });
 
+  it("parses the Saudi-dialect example prompts shown on the assistant page", () => {
+    const a = parseRequest("أبي موقف قرب العليا الساعة 9 الصبح لمدة ساعتين، مشي معقول وميزانيتي 20 ريال.", T0);
+    expect(a).toMatchObject({ destination: "olaya", arrival: "2026-11-18T06:00:00.000Z", durationHours: 2, budgetSar: 20, maxWalkM: 800 });
+    expect(a.understood).toEqual(expect.arrayContaining(["destination", "arrival", "duration", "budget", "walk"]));
+    expect(parseRequest("موقف على طريق الملك فهد الحين لمدة ساعة، قريب مره", T0)).toMatchObject({ destination: "kfr", durationHours: 1, maxWalkM: 400 });
+    const c = parseRequest("مكان في الورود بكرة الساعة 10:30 الصبح لمدة 3 ساعات بأقل من 25 ريال", T0);
+    expect(c).toMatchObject({ destination: "wurud", arrival: "2026-11-18T07:30:00.000Z", durationHours: 3, budgetSar: 25 });
+    expect(parseRequest("ميزانيتي 15", T0).budgetSar).toBe(15);
+  });
+
   it("handles 'now', other neighborhoods and evening times", () => {
     expect(parseRequest("parking on King Fahd Road now for 1 hour", T0)).toMatchObject({ destination: "kfr", arrivalIsNow: true, durationHours: 1 });
     expect(parseRequest("موقف في الملقا الساعة 7 مساء", T0).arrival).toBe("2026-11-17T16:00:00.000Z");

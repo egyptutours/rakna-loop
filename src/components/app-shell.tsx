@@ -12,10 +12,12 @@ import { ROLE_LABEL } from "@/lib/i18n";
 export function Logo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden>
-      <rect width="40" height="40" rx="12" fill="#163828" />
-      <path d="M13 28V12h8.5a5.5 5.5 0 0 1 0 11H13" fill="none" stroke="#f7f5ef" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M20 23l7 5" stroke="#b08d4f" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="29" cy="12.5" r="2.5" fill="#a7bea3" />
+      <rect width="40" height="40" rx="12" fill="var(--color-forest)" />
+      {/* Najdi stepped crenellation along the badge's top edge */}
+      <path d="M8 6h3V4h3V2h4v2h3v2h3" fill="none" stroke="var(--color-clay)" strokeWidth="1.4" strokeOpacity="0.75" />
+      <path d="M13 30V14h8.5a5.5 5.5 0 0 1 0 11H13" fill="none" stroke="var(--color-card)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M20 25l7 5" stroke="var(--color-keys)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M29 12l2.5 2.5L29 17l-2.5-2.5z" fill="var(--color-sadu)" stroke="var(--color-keys)" strokeWidth="0.8" />
     </svg>
   );
 }
@@ -46,7 +48,7 @@ function DemoSwitcher() {
       {open && (
         <div role="menu" className="absolute end-0 z-[60] mt-2 w-72 rounded-2xl border border-line bg-card p-2 shadow-[var(--shadow-lift)]">
           <p className="px-3 py-2 text-[11px] leading-snug text-mute">
-            {L("Demo mode: switch accounts to test User A and User B in one browser.", "الوضع التجريبي: بدّل الحسابات لتجربة المستخدم أ والمستخدم ب في متصفح واحد.")}
+            {L("Demo mode: switch accounts to test User A and User B in one browser.", "الوضع التجريبي: بدّل بين الحسابات عشان تجرب المستخدم أ والمستخدم ب في نفس المتصفح.")}
           </p>
           {session.demoUsers.map((u) => (
             <button
@@ -56,7 +58,7 @@ function DemoSwitcher() {
                 try {
                   await switchUser(u.id);
                   setOpen(false);
-                  toast(L(`Now using ${u.displayName}`, `تم التبديل إلى ${u.displayNameAr}`), "ok");
+                  toast(L(`Now using ${u.displayName}`, `حوّلت لـ${u.displayNameAr}`), "ok");
                 } catch (e) {
                   toast(errorText(e), "error");
                 }
@@ -113,7 +115,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     mode === "host"
       ? [
           { href: "/host", label: L("Host dashboard", "لوحة المضيف"), short: L("Dashboard", "اللوحة"), icon: LayoutDashboard, exact: true },
-          { href: "/host/list", label: L("List my parking", "أدرج موقفي"), short: L("List", "إدراج"), icon: PlusSquare },
+          { href: "/host/list", label: L("List my parking", "اعرض موقفي"), short: L("List", "اعرض"), icon: PlusSquare },
           { href: "/wallet", label: L("Wallet & Impact", "المحفظة والأثر"), short: L("Wallet", "المحفظة"), icon: KeyRound },
         ]
       : [
@@ -134,7 +136,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const nav = [...primary, ...secondary];
 
   const roleTab = role === "partner" ? { href: "/partner", short: L("Partner", "الشريك"), icon: LayoutDashboard } : role === "admin" ? { href: "/admin", short: L("Admin", "الإدارة"), icon: ShieldCheck } : null;
-  const mobile = [...primary.slice(0, roleTab ? 2 : 3), ...(roleTab ? [roleTab] : []), { href: "/profile", short: L("More", "المزيد"), icon: User }];
+  const mobile = [...primary.slice(0, roleTab ? 2 : 3), ...(roleTab ? [roleTab] : []), { href: "/profile", short: L("More", "أكثر"), icon: User }];
 
   const isActive = (href: string, exact?: boolean) => (href === "/" || exact ? path === href : path.startsWith(href));
   const fullBleed = path === "/";
@@ -142,17 +144,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className={cn("flex flex-col", fullBleed ? "h-dvh" : "min-h-dvh")}>
       {session?.demoMode && (
-        <div className="bg-forest px-4 py-1.5 text-center text-[11px] font-medium text-sage-soft">
-          {L("DEMO MODE — simulated Riyadh data. Rewards and payments are simulated.", "الوضع التجريبي — بيانات محاكاة للرياض. المكافآت والمدفوعات محاكاة.")}
+        <div className="najdi-door-light bg-forest px-4 py-1.5 text-center text-[11px] font-medium text-sage-soft">
+          {L("DEMO MODE — simulated Riyadh data. Rewards and payments are simulated.", "الوضع التجريبي — بيانات محاكاة للرياض. المكافآت والدفع محاكاة.")}
         </div>
       )}
-      <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur">
+      <header className="sticky top-0 z-50 bg-paper/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo className="h-9 w-9" />
             <span className="hidden leading-tight min-[400px]:block">
               <span className="block whitespace-nowrap text-[15px] font-bold tracking-wide text-forest">RAKNA LOOP</span>
-              <span className="block text-[11px] text-mute">ركنة لوب</span>
+              <span className="font-heading block text-[11px] text-mute">ركنة لوب</span>
             </span>
           </Link>
           <nav className="ms-4 hidden items-center gap-1 xl:flex" aria-label={L("Main", "الرئيسية")}>
@@ -177,7 +179,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               onClick={() => setLang(lang === "ar" ? "en" : "ar")}
               className="flex h-10 items-center gap-1.5 rounded-xl border border-line bg-card px-3 text-xs font-semibold text-forest hover:bg-sage-mist"
-              aria-label={L("Switch language to Arabic", "تغيير اللغة إلى الإنجليزية")}
+              aria-label={L("Switch language to Arabic", "غيّر اللغة للإنجليزي")}
             >
               <Languages className="h-4 w-4" aria-hidden />
               {lang === "ar" ? "EN" : "عربي"}
@@ -191,6 +193,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </nav>
+        {/* Al Sadu woven band as the header's bottom edge (decorative). */}
+        <div className="najdi-sadu h-1.5" aria-hidden />
       </header>
 
       <main className={cn("flex-1", fullBleed ? "min-h-0 pb-16 md:pb-0" : "mx-auto w-full max-w-7xl px-4 pb-28 pt-6 md:pb-12")}>{children}</main>

@@ -65,7 +65,7 @@ export function Pill({ tone = "neutral", children, className }: { tone?: "neutra
     danger: "bg-danger-soft text-danger",
     warn: "bg-warn-soft text-warn",
     forest: "bg-forest text-white",
-    inactive: "bg-[#eceeed] text-mute",
+    inactive: "bg-inactive-soft text-mute",
   };
   return <span className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold", tones[tone], className)}>{children}</span>;
 }
@@ -149,7 +149,9 @@ export function SectionTitle({ title, subtitle, action }: { title: string; subti
     <div className="mb-4 flex items-end justify-between gap-3">
       <div>
         <h2 className="text-lg font-bold text-ink">{title}</h2>
-        {subtitle && <p className="mt-0.5 text-sm text-mute">{subtitle}</p>}
+        {/* short Al Sadu accent under section titles */}
+        <span className="najdi-sadu mt-1.5 block h-1 w-12 rounded-full" aria-hidden />
+        {subtitle && <p className="mt-1.5 text-sm text-mute">{subtitle}</p>}
       </div>
       {action}
     </div>
@@ -158,19 +160,23 @@ export function SectionTitle({ title, subtitle, action }: { title: string; subti
 
 export function PageHeader({ eyebrow, title, subtitle, children }: { eyebrow?: string; title: string; subtitle?: string; children?: React.ReactNode }) {
   return (
-    <header className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-      <div>
-        {eyebrow && <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-forest-3">{eyebrow}</p>}
-        <h1 className="text-2xl font-bold text-forest md:text-3xl">{title}</h1>
-        {subtitle && <p className="mt-1 max-w-2xl text-sm text-mute">{subtitle}</p>}
+    <header className="mb-6">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          {eyebrow && <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-forest-3">{eyebrow}</p>}
+          <h1 className="text-2xl font-bold text-forest md:text-3xl">{title}</h1>
+          {subtitle && <p className="mt-1 max-w-2xl text-sm text-mute">{subtitle}</p>}
+        </div>
+        {children}
       </div>
-      {children}
+      {/* Najdi stepped crenellations as the page hero's bottom edge (decorative). */}
+      <div className="najdi-crenel mt-4 h-2.5 w-full" aria-hidden />
     </header>
   );
 }
 
 export function Empty({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-2xl border border-dashed border-line p-6 text-center text-sm text-mute">{children}</div>;
+  return <div className="najdi-door rounded-2xl border border-dashed border-line p-6 text-center text-sm text-mute">{children}</div>;
 }
 
 export function Skeleton({ className }: { className?: string }) {

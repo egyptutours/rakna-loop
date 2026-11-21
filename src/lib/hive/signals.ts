@@ -37,16 +37,16 @@ export interface HiveResourceSignal {
 
 export function explainSignal(s: Pick<HiveResourceSignal, "freshness" | "confidence" | "verification" | "status">): { en: string; ar: string } {
   if (s.status === "pending_departure") {
-    return { en: "A driver nearby says they are about to leave. It is a heads-up, not a reservation.", ar: "سائق قريب أفاد بأنه على وشك المغادرة. إنها معلومة مسبقة وليست حجزًا." };
+    return { en: "A driver nearby says they are about to leave. It is a heads-up, not a reservation.", ar: "سائق قريب قال إنه على وشك يطلع. هذي معلومة مبكرة وليست حجز." };
   }
-  const fresh = s.freshness >= 0.6 ? { en: "was recently reported", ar: "أُبلغ عنها مؤخرًا" } : s.freshness >= 0.3 ? { en: "was reported a few minutes ago", ar: "أُبلغ عنها قبل دقائق" } : { en: "is getting old", ar: "أصبحت قديمة نسبيًا" };
+  const fresh = s.freshness >= 0.6 ? { en: "was recently reported", ar: "انبلّغ عنها توّ" } : s.freshness >= 0.3 ? { en: "was reported a few minutes ago", ar: "انبلّغ عنها قبل دقايق" } : { en: "is getting old", ar: "صارت قديمة شوي" };
   const conf = { high: { en: "high", ar: "عالية" }, medium: { en: "medium", ar: "متوسطة" }, low: { en: "low", ar: "منخفضة" } }[s.confidence.level];
   const trail = s.verification.trailSamples >= 2
-    ? { en: ` Drivers have found spots in this area ${Math.round(s.verification.trailScore * 100)}% of the time recently.`, ar: ` وجد السائقون مواقف في هذه المنطقة بنسبة ${Math.round(s.verification.trailScore * 100)}% مؤخرًا.` }
+    ? { en: ` Drivers have found spots in this area ${Math.round(s.verification.trailScore * 100)}% of the time recently.`, ar: ` السائقين لقوا مواقف في هالمنطقة بنسبة ${Math.round(s.verification.trailScore * 100)}% مؤخرًا.` }
     : { en: "", ar: "" };
   return {
     en: `This nearby parking opportunity ${fresh.en} and has a ${conf.en} verification confidence.${trail.en} Availability is not guaranteed.`,
-    ar: `فرصة الموقف القريبة هذه ${fresh.ar} وثقة التحقق منها ${conf.ar}.${trail.ar} التوفر غير مضمون.`,
+    ar: `فرصة الموقف القريبة هذي ${fresh.ar} وثقة التحقق منها ${conf.ar}.${trail.ar} التوفر مو مضمون.`,
   };
 }
 

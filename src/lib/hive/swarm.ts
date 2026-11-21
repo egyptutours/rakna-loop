@@ -137,8 +137,8 @@ export async function recruit(
     privateAlternatives.push({
       id: s.id, title: s.title, titleAr: s.titleAr, location: s.location, distanceM: Math.round(d), pricePerHour: s.pricePerHour, freeNow: free, accessibleBays: s.accessibleBays ?? 0,
       reason: s.accessibleBays
-        ? { en: `Approved private parking ${Math.round(d)} m away with ${s.accessibleBays} accessible bay(s). Bookable subject to availability.`, ar: `موقف خاص معتمد على بُعد ${Math.round(d)} م مع ${s.accessibleBays} موقف لذوي الإعاقة. قابل للحجز حسب التوفر.` }
-        : { en: `Approved private parking ${Math.round(d)} m away. Bookable subject to availability.`, ar: `موقف خاص معتمد على بُعد ${Math.round(d)} م. قابل للحجز حسب التوفر.` },
+        ? { en: `Approved private parking ${Math.round(d)} m away with ${s.accessibleBays} accessible bay(s). Bookable subject to availability.`, ar: `موقف خاص معتمد على بعد ${Math.round(d)} م وفيه ${s.accessibleBays} موقف لذوي الإعاقة. تقدر تحجزه حسب التوفر.` }
+        : { en: `Approved private parking ${Math.round(d)} m away. Bookable subject to availability.`, ar: `موقف خاص معتمد على بعد ${Math.round(d)} م. تقدر تحجزه حسب التوفر.` },
     });
   }
   privateAlternatives.sort((a, b) => a.distanceM - b.distanceM);
@@ -151,10 +151,10 @@ export async function recruit(
 
   const advice: RecruitmentResult["advice"] = [];
   if (strained) {
-    advice.push({ en: "This hive has more searches than verified spots right now. Rather than circling, consider the nearby options below.", ar: "هذه الخلية فيها طلبات بحث أكثر من المواقف الموثقة حاليًا. بدل الدوران، فكّر في الخيارات القريبة أدناه." });
+    advice.push({ en: "This hive has more searches than verified spots right now. Rather than circling, consider the nearby options below.", ar: "هذي الخلية فيها طلبات بحث أكثر من المواقف الموثقة الحين. بدل ما تلف، شوف الخيارات القريبة تحت." });
   }
-  if (found.length === 0) advice.push({ en: "No live community signals nearby. Private parking or transit may save you a search.", ar: "لا توجد إشارات مجتمعية حية قريبة. قد توفر عليك المواقف الخاصة أو النقل العام عناء البحث." });
-  advice.push({ en: "Please don't use the app while driving. Pull over safely or ask a passenger.", ar: "لا تستخدم التطبيق أثناء القيادة. توقف بأمان أو اطلب من مرافق." });
+  if (found.length === 0) advice.push({ en: "No live community signals nearby. Private parking or transit may save you a search.", ar: "ما فيه إشارات مجتمعية حيّة قريبة. المواقف الخاصة أو النقل العام ممكن يريحونك من التدوير." });
+  advice.push({ en: "Please don't use the app while driving. Pull over safely or ask a passenger.", ar: "لا تستخدم التطبيق وأنت تسوق. وقّف بأمان أو خل اللي معك يستخدمه." });
 
   return {
     home: homeSummary, homeCell: home, opportunities: found, neighborAlternatives, privateAlternatives: privateAlternatives.slice(0, 3), transitAlternatives, advice, ringsSearched,

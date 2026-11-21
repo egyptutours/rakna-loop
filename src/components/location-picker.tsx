@@ -38,7 +38,7 @@ export function LocationPicker({ value, onChange, presets, purpose }: { value: E
   const useGps = () => {
     setErr(null);
     if (!("geolocation" in navigator)) {
-      setErr(L("This browser can't share location.", "هذا المتصفح لا يدعم مشاركة الموقع."));
+      setErr(L("This browser can't share location.", "هذا المتصفح ما يدعم مشاركة الموقع."));
       return;
     }
     setBusy(true);
@@ -51,8 +51,8 @@ export function LocationPicker({ value, onChange, presets, purpose }: { value: E
         setBusy(false);
         setErr(
           e.code === e.PERMISSION_DENIED
-            ? L("Location permission was denied. You can enable it in your browser settings.", "تم رفض إذن الموقع. يمكنك تفعيله من إعدادات المتصفح.")
-            : L("Couldn't get your location. Try again outdoors.", "تعذر تحديد موقعك. حاول مجددًا في مكان مكشوف."),
+            ? L("Location permission was denied. You can enable it in your browser settings.", "رفضت إذن الموقع. تقدر تفعّله من إعدادات المتصفح.")
+            : L("Couldn't get your location. Try again outdoors.", "ما قدرنا نحدد موقعك. جرّب مرة ثانية في مكان مكشوف."),
         );
       },
       { enableHighAccuracy: true, timeout: 15_000, maximumAge: 10_000 },
@@ -64,7 +64,7 @@ export function LocationPicker({ value, onChange, presets, purpose }: { value: E
       <p className="text-xs leading-relaxed text-mute">{purpose}</p>
       <Button type="button" variant="secondary" onClick={useGps} loading={busy} className="w-full">
         <Crosshair className="h-4 w-4" aria-hidden />
-        {L("Use my current location (one time)", "استخدم موقعي الحالي (مرة واحدة)")}
+        {L("Use my current location (one time)", "استخدم موقعي الحالي (مرة وحدة)")}
       </Button>
       {err && <p className="text-xs text-danger">{err}</p>}
 
@@ -72,7 +72,7 @@ export function LocationPicker({ value, onChange, presets, purpose }: { value: E
         <div className="rounded-2xl border border-dashed border-gold/50 bg-gold-soft/40 p-3">
           <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-gold">
             <FlaskConical className="h-3.5 w-3.5" aria-hidden />
-            {L("Demo: simulate a position", "تجريبي: محاكاة موقع")}
+            {L("Demo: simulate a position", "تجريبي: موقع محاكى")}
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             {presets.map((p) => (

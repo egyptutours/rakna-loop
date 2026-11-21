@@ -82,7 +82,7 @@ export function RuleEditor({ rules, onChange }: { rules: RuleDraft[]; onChange: 
           {rules.length > 1 && (
             <Button type="button" size="sm" variant="ghost" onClick={() => onChange(rules.filter((_, j) => j !== i))}>
               <Trash2 className="h-4 w-4" aria-hidden />
-              {L("Remove rule", "حذف القاعدة")}
+              {L("Remove rule", "احذف القاعدة")}
             </Button>
           )}
         </fieldset>
@@ -90,7 +90,7 @@ export function RuleEditor({ rules, onChange }: { rules: RuleDraft[]; onChange: 
       {rules.length < 14 && (
         <Button type="button" size="sm" variant="secondary" onClick={() => onChange([...rules, { ...DEFAULT_RULE, weekdayMask: 96, startMinute: 0, endMinute: 1440 }])}>
           <Plus className="h-4 w-4" aria-hidden />
-          {L("Add rule (e.g. weekends)", "أضف قاعدة (مثل عطلة نهاية الأسبوع)")}
+          {L("Add rule (e.g. weekends)", "أضف قاعدة (مثل الويكند)")}
         </Button>
       )}
     </div>

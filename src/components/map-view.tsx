@@ -48,8 +48,8 @@ const OSM_STYLE: StyleSpecification = {
   layers: [{ id: "osm", type: "raster", source: "osm", paint: { "raster-saturation": -0.55, "raster-contrast": -0.05, "raster-brightness-max": 0.98 } }],
 };
 
-const STATE_FILL = ["match", ["get", "state"], ...Object.entries(HIVE_STATE_STYLE).flatMap(([k, v]) => [k, v.fill]), "#d8b46a"] as unknown as maplibregl.ExpressionSpecification;
-const STATE_LINE = ["match", ["get", "state"], ...Object.entries(HIVE_STATE_STYLE).flatMap(([k, v]) => [k, v.line]), "#b08d4f"] as unknown as maplibregl.ExpressionSpecification;
+const STATE_FILL = ["match", ["get", "state"], ...Object.entries(HIVE_STATE_STYLE).flatMap(([k, v]) => [k, v.fill]), "#d9a75a"] as unknown as maplibregl.ExpressionSpecification;
+const STATE_LINE = ["match", ["get", "state"], ...Object.entries(HIVE_STATE_STYLE).flatMap(([k, v]) => [k, v.line]), "#a9742e"] as unknown as maplibregl.ExpressionSpecification;
 
 /** ~150 m pre-booking privacy circle around a residential space's approximate point. */
 export interface MapCircle {
@@ -153,8 +153,8 @@ export function MapView({
       m.addLayer({ id: "hive-line", type: "line", source: "hive", paint: { "line-color": STATE_LINE, "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.6, 16, 1.4], "line-opacity": 0.75 } });
       // Residential privacy circles: the exact bay is revealed only after a paid booking.
       m.addSource("privacy", { type: "geojson", data: circleCollection(circleRef.current) });
-      m.addLayer({ id: "privacy-fill", type: "fill", source: "privacy", paint: { "fill-color": "#2f7d5b", "fill-opacity": 0.12 } });
-      m.addLayer({ id: "privacy-line", type: "line", source: "privacy", paint: { "line-color": "#2f7d5b", "line-width": 1.5, "line-dasharray": [2, 2], "line-opacity": 0.8 } });
+      m.addLayer({ id: "privacy-fill", type: "fill", source: "privacy", paint: { "fill-color": "#1c7a4c", "fill-opacity": 0.12 } });
+      m.addLayer({ id: "privacy-line", type: "line", source: "privacy", paint: { "line-color": "#1c7a4c", "line-width": 1.5, "line-dasharray": [2, 2], "line-opacity": 0.8 } });
       m.on("click", "hive-fill", (e) => {
         const id = e.features?.[0]?.properties?.id as string | undefined;
         if (id) onHexRef.current?.(id);

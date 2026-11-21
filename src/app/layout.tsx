@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import { IBM_Plex_Sans_Arabic } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { AppShell } from "@/components/app-shell";
@@ -13,22 +13,30 @@ const plex = IBM_Plex_Sans_Arabic({
   display: "swap",
 });
 
+// Arabic headings: a Kufi face with Najdi character (body text stays IBM Plex Sans Arabic).
+const kufi = Noto_Kufi_Arabic({
+  subsets: ["arabic", "latin"],
+  weight: ["600", "700"],
+  variable: "--font-kufi",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "RAKNA LOOP — ركنة لوب",
-  description: "Leave a Spot. Earn Rewards. Help Your City Move. — اترك موقفًا، اكسب نقاطًا، وساعد غيرك.",
+  description: "Leave a Spot. Earn Rewards. Help Your City Move. — اترك موقفك، اكسب نقاط، وساعد غيرك.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#163828",
+  themeColor: "#3b2719",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Arabic is the default language; English is the alternative.
   const lang: Lang = (await cookies()).get("rakna_lang")?.value === "en" ? "en" : "ar";
   return (
-    <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"} className={plex.variable}>
+    <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"} className={`${plex.variable} ${kufi.variable}`}>
       <body className="min-h-dvh">
         <Providers initialLang={lang}>
           <AppShell>{children}</AppShell>

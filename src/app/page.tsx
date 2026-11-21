@@ -108,14 +108,14 @@ export default function HomeMap() {
   }, []);
 
   const locate = () => {
-    if (!("geolocation" in navigator)) return toast(L("Location isn't available in this browser.", "الموقع غير متاح في هذا المتصفح."), "error");
+    if (!("geolocation" in navigator)) return toast(L("Location isn't available in this browser.", "الموقع مو متاح في هذا المتصفح."), "error");
     navigator.geolocation.getCurrentPosition(
       (p) => {
         const loc = { lat: p.coords.latitude, lng: p.coords.longitude };
         setMe(loc);
         setFly({ center: loc, zoom: 15.5, key: Date.now() });
       },
-      () => toast(L("Location permission denied.", "تم رفض إذن الموقع."), "error"),
+      () => toast(L("Location permission denied.", "رفضت إذن الموقع."), "error"),
       { enableHighAccuracy: true, timeout: 15_000 },
     );
   };
@@ -145,9 +145,9 @@ export default function HomeMap() {
         const kind: MapPoint["kind"] = s.status === "pending_departure" ? "pending" : s.status === "claimed" ? "claimed" : "signal";
         out.push({ id: `r:${s.id}`, kind, location: s.location, title: L("Community parking signal", "إشارة موقف مجتمعية") });
       }
-      for (const c of data.clusters) out.push({ id: `c:${c.cell}`, kind: "cluster", location: c.center, label: String(c.count), title: L(`${c.count} signals — zoom in`, `${c.count} إشارات — قرّب`) });
+      for (const c of data.clusters) out.push({ id: `c:${c.cell}`, kind: "cluster", location: c.center, label: String(c.count), title: L(`${c.count} signals — zoom in`, `${c.count} إشارات — قرّب أكثر`) });
     }
-    if (filters.inactive) for (const r of data.inactive) out.push({ id: `x:${r.id}`, kind: "inactive", location: r.location, title: L("Expired or inactive", "منتهية أو غير نشطة") });
+    if (filters.inactive) for (const r of data.inactive) out.push({ id: `x:${r.id}`, kind: "inactive", location: r.location, title: L("Expired or inactive", "منتهية أو مو شغّالة") });
     if (filters.private) for (const s of data.spaces) out.push({ id: `s:${s.id}`, kind: "private", location: s.location, label: "P", title: lang === "ar" ? s.titleAr : s.title });
     return out;
   }, [data, filters, L, lang]);
@@ -218,8 +218,8 @@ export default function HomeMap() {
         <div className="pointer-events-none absolute inset-x-0 top-0 space-y-2 p-3">
           <form onSubmit={search} className="pointer-events-auto mx-auto flex max-w-xl items-center gap-2 rounded-2xl border border-line bg-card/95 p-1.5 shadow-[var(--shadow-lift)] backdrop-blur">
             <Search className="ms-2 h-4 w-4 shrink-0 text-mute" aria-hidden />
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={L("Search destination — e.g. Al Olaya", "ابحث عن وجهة — مثل العليا")} className="h-10 min-w-0 flex-1 bg-transparent text-sm outline-none" aria-label={L("Search destination", "ابحث عن وجهة")} />
-            <button type="button" onClick={locate} className="grid h-10 w-10 place-items-center rounded-xl text-forest hover:bg-sage-mist" aria-label={L("Show my location", "أظهر موقعي")}>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={L("Search destination — e.g. Al Olaya", "دوّر على وجهة — مثل العليا")} className="h-10 min-w-0 flex-1 bg-transparent text-sm outline-none" aria-label={L("Search destination", "دوّر على وجهة")} />
+            <button type="button" onClick={locate} className="grid h-10 w-10 place-items-center rounded-xl text-forest hover:bg-sage-mist" aria-label={L("Show my location", "وين أنا؟")}>
               <Crosshair className="h-5 w-5" aria-hidden />
             </button>
           </form>
@@ -227,12 +227,12 @@ export default function HomeMap() {
             {chip("hive", L("Hive", "الخلايا"), <Hexagon className="h-3 w-3 fill-gold/60 text-gold" aria-hidden />)}
             {chip("community", L("Community", "مجتمعية"), <span className="h-2.5 w-2.5 rounded-full bg-signal" aria-hidden />)}
             {chip("private", L("Private", "خاصة"), <span className="h-2.5 w-2.5 rounded-full bg-private" aria-hidden />)}
-            {chip("inactive", L("Inactive", "غير نشطة"), <span className="h-2.5 w-2.5 rounded-full bg-inactive" aria-hidden />)}
+            {chip("inactive", L("Inactive", "مو شغّالة"), <span className="h-2.5 w-2.5 rounded-full bg-inactive" aria-hidden />)}
             {chip("highOnly", L("High confidence only", "ثقة عالية فقط"))}
           </div>
           {aggregate && (
             <p className="pointer-events-auto mx-auto w-fit rounded-full bg-card/95 px-3 py-1 text-[11px] text-ink-2 shadow-sm">
-              {L("Hive overview — zoom in to see individual signals and private spaces", "نظرة على الخلايا — قرّب لرؤية الإشارات والمواقف الخاصة")}
+              {L("Hive overview — zoom in to see individual signals and private spaces", "نظرة على الخلايا — قرّب عشان تشوف الإشارات والمواقف الخاصة")}
             </p>
           )}
           {data?.focus && (
@@ -249,10 +249,10 @@ export default function HomeMap() {
             </button>
             <div className={cn("mt-1.5 space-y-2", !legendOpen && "hidden md:block")}>
               <ul className="space-y-1">
-                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-signal" />{L("Community signal — not guaranteed", "إشارة مجتمعية — غير مضمونة")}</li>
-                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full border-2 border-dashed border-signal bg-white" />{L("Upcoming departure", "مغادرة قريبة")}</li>
-                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-private" />{L("Approved private — bookable", "خاص معتمد — قابل للحجز")}</li>
-                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-inactive" />{L("Expired / inactive", "منتهي / غير نشط")}</li>
+                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-signal" />{L("Community signal — not guaranteed", "إشارة مجتمعية — مو مضمونة")}</li>
+                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full border-2 border-dashed border-signal bg-white" />{L("Upcoming departure", "طالع قريب")}</li>
+                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-private" />{L("Approved private — bookable", "خاص معتمد — تقدر تحجزه")}</li>
+                <li className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-inactive" />{L("Expired / inactive", "منتهي / مو شغّال")}</li>
               </ul>
               {filters.hive && <div className="border-t border-line pt-2"><HiveLegend compact /></div>}
               {session?.demoMode && <DemoTag />}
@@ -261,7 +261,7 @@ export default function HomeMap() {
           {isDriver && !mine.active && (
             <ButtonLink href="/report" className="pointer-events-auto h-14 rounded-2xl px-5 text-base shadow-[var(--shadow-lift)] md:hidden">
               <DoorOpen className="h-5 w-5" aria-hidden />
-              {L("I'm Leaving", "أنا مغادر")}
+              {L("I'm Leaving", "بطلع الحين")}
             </ButtonLink>
           )}
         </div>
@@ -276,33 +276,33 @@ export default function HomeMap() {
       <aside className="hidden min-h-0 flex-col gap-4 overflow-y-auto border-s border-line bg-paper p-4 md:flex">
         {!session?.user && (
           <div className="rounded-[var(--radius-card)] bg-forest p-5 text-white">
-            <p className="text-lg font-bold">{L("Welcome to RAKNA LOOP", "مرحبًا بك في ركنة لوب")}</p>
-            <p className="mt-1 text-sm text-sage-soft">{L("Pick a demo account from the top bar to start.", "اختر حسابًا تجريبيًا من الشريط العلوي للبدء.")}</p>
-            <Button variant="gold" size="sm" className="mt-3" onClick={() => setShowOnboarding(true)}>{L("How it works", "كيف تعمل")}</Button>
+            <p className="text-lg font-bold">{L("Welcome to RAKNA LOOP", "يا هلا فيك في ركنة لوب")}</p>
+            <p className="mt-1 text-sm text-sage-soft">{L("Pick a demo account from the top bar to start.", "اختر حساب تجريبي من الشريط اللي فوق عشان تبدأ.")}</p>
+            <Button variant="gold" size="sm" className="mt-3" onClick={() => setShowOnboarding(true)}>{L("How it works", "كيف تشتغل")}</Button>
           </div>
         )}
         {isDriver && (
           <div className="rounded-[var(--radius-card)] bg-forest p-5 text-white shadow-[var(--shadow-lift)]">
             {mine.active ? (
               <>
-                <p className="text-xs text-sage">{L("Your departure report", "بلاغ مغادرتك")}</p>
-                <p className="mt-1 text-lg font-bold">{mine.active.status === "claimed" ? L("A driver is on the way", "سائق في الطريق") : L("Live — helping drivers nearby", "نشط — يساعد السائقين القريبين")}</p>
-                <p className="mt-1 text-sm text-sage-soft">{L("Expires in", "ينتهي خلال")} <span className="num font-semibold text-white">{countdown(mine.active.expiresAt, now)}</span></p>
-                <ButtonLink href={`/reports/${mine.active.id}`} variant="gold" className="mt-3 w-full">{L("View report", "عرض البلاغ")}</ButtonLink>
+                <p className="text-xs text-sage">{L("Your departure report", "بلاغ طلعتك")}</p>
+                <p className="mt-1 text-lg font-bold">{mine.active.status === "claimed" ? L("A driver is on the way", "فيه سائق جايك") : L("Live — helping drivers nearby", "شغّال — يساعد السائقين اللي حولك")}</p>
+                <p className="mt-1 text-sm text-sage-soft">{L("Expires in", "ينتهي بعد")} <span className="num font-semibold text-white">{countdown(mine.active.expiresAt, now)}</span></p>
+                <ButtonLink href={`/reports/${mine.active.id}`} variant="gold" className="mt-3 w-full">{L("View report", "شوف البلاغ")}</ButtonLink>
               </>
             ) : (
               <>
-                <p className="text-lg font-bold">{L("Leaving a public spot?", "تغادر موقفًا عامًا؟")}</p>
-                <p className="mt-1 text-sm text-sage-soft">{L("Tell nearby drivers. Earn RAKNA KEYS when someone verifies they found it.", "أخبر السائقين القريبين. اكسب مفاتيح ركنة عندما يؤكد أحدهم أنه وجده.")}</p>
-                <ButtonLink href="/report" variant="gold" className="mt-3 h-12 w-full text-base"><DoorOpen className="h-5 w-5" aria-hidden />{L("I'm Leaving", "أنا مغادر")}</ButtonLink>
+                <p className="text-lg font-bold">{L("Leaving a public spot?", "بتطلع من موقف عام؟")}</p>
+                <p className="mt-1 text-sm text-sage-soft">{L("Tell nearby drivers. Earn RAKNA KEYS when someone verifies they found it.", "علّم السائقين اللي حولك. تكسب مفاتيح ركنة إذا أكّد واحد منهم إنه لقاه.")}</p>
+                <ButtonLink href="/report" variant="gold" className="mt-3 h-12 w-full text-base"><DoorOpen className="h-5 w-5" aria-hidden />{L("I'm Leaving", "بطلع الحين")}</ButtonLink>
               </>
             )}
           </div>
         )}
         {mine.claimed && (
           <Link href={`/reports/${mine.claimed.id}`} className="rounded-2xl border border-signal/30 bg-signal-soft p-4 text-sm text-signal">
-            <p className="font-semibold">{L("You're heading to a signal", "أنت متجه إلى إشارة")}</p>
-            <p className="mt-0.5">{L("Confirm the outcome when you arrive →", "أكّد النتيجة عند الوصول ←")}</p>
+            <p className="font-semibold">{L("You're heading to a signal", "أنت رايح لإشارة")}</p>
+            <p className="mt-0.5">{L("Confirm the outcome when you arrive →", "أكّد النتيجة إذا وصلت ←")}</p>
           </Link>
         )}
 
@@ -312,11 +312,11 @@ export default function HomeMap() {
 
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">{aggregate ? L("Zoom in to list signals", "قرّب لعرض الإشارات") : L("Signals in view", "إشارات في نطاق الخريطة")}</h2>
+            <h2 className="text-sm font-bold text-ink">{aggregate ? L("Zoom in to list signals", "قرّب عشان تشوف الإشارات") : L("Signals in view", "إشارات في حدود الخريطة")}</h2>
             {!aggregate && <Pill tone="signal"><span className="num">{live.length}</span></Pill>}
           </div>
           <div className="space-y-2">
-            {!aggregate && live.length === 0 && <p className="rounded-2xl border border-dashed border-line p-4 text-center text-xs text-mute">{L("No live signals in this area right now.", "لا توجد إشارات نشطة في هذه المنطقة الآن.")}</p>}
+            {!aggregate && live.length === 0 && <p className="rounded-2xl border border-dashed border-line p-4 text-center text-xs text-mute">{L("No live signals in this area right now.", "ما فيه إشارات شغّالة في هالمنطقة الحين.")}</p>}
             {live.slice(0, 12).map((s) => (
               <button key={s.id} onClick={() => { setSelected(`r:${s.id}`); setFly({ center: s.location, zoom: 16.5, key: Date.now() }); }} className="flex w-full items-center justify-between gap-3 rounded-2xl border border-line bg-card p-3 text-start hover:border-signal/40">
                 <div className="min-w-0">
@@ -329,7 +329,7 @@ export default function HomeMap() {
                 </div>
               </button>
             ))}
-            {data?.meta.truncated && <p className="text-center text-[11px] text-mute">{L("More signals in this area — zoom in.", "إشارات أخرى في هذه المنطقة — قرّب.")}</p>}
+            {data?.meta.truncated && <p className="text-center text-[11px] text-mute">{L("More signals in this area — zoom in.", "فيه إشارات ثانية في هالمنطقة — قرّب.")}</p>}
           </div>
         </div>
 
@@ -349,7 +349,7 @@ function SelectionCard({ signal, space, me, now, onClose }: { signal: HiveResour
   const { L, B, lang } = useApp();
   return (
     <div className="relative rounded-[var(--radius-card)] border border-line bg-card p-4 shadow-[var(--shadow-lift)]">
-      <button onClick={onClose} className="absolute end-3 top-3 grid h-8 w-8 place-items-center rounded-lg text-mute hover:bg-sage-mist" aria-label={L("Close", "إغلاق")}>
+      <button onClick={onClose} className="absolute end-3 top-3 grid h-8 w-8 place-items-center rounded-lg text-mute hover:bg-sage-mist" aria-label={L("Close", "سكّر")}>
         <X className="h-4 w-4" aria-hidden />
       </button>
       {signal && (
@@ -362,13 +362,13 @@ function SelectionCard({ signal, space, me, now, onClose }: { signal: HiveResour
           <p className="text-xs text-mute">
             {timeAgo(signal.reportedAt, lang, now)}
             {me && <> · {formatDistance(distanceM(me, signal.location), lang)}</>}
-            {["available", "pending_departure", "claimed"].includes(signal.status) && <> · {L("expires in", "ينتهي خلال")} <span className="num">{countdown(signal.expiresAt, now)}</span></>}
+            {["available", "pending_departure", "claimed"].includes(signal.status) && <> · {L("expires in", "ينتهي بعد")} <span className="num">{countdown(signal.expiresAt, now)}</span></>}
           </p>
           <ConfidenceMeter level={signal.confidence.level} score={signal.confidence.score} />
           <p className="text-xs leading-relaxed text-ink-2">{B(signal.explanation)}</p>
           <ButtonLink href={`/reports/${signal.id}`} variant="signal" className="w-full">
             <Navigation className="h-4 w-4" aria-hidden />
-            {L("View details", "عرض التفاصيل")}
+            {L("View details", "شوف التفاصيل")}
           </ButtonLink>
         </div>
       )}
@@ -383,22 +383,22 @@ function SelectionCard({ signal, space, me, now, onClose }: { signal: HiveResour
           <div className="flex flex-wrap gap-2 text-xs">
             <Pill>{space.hourlyRateHalalas !== null ? formatHalalas(space.hourlyRateHalalas, lang) : fmtSar(space.pricePerHour, lang)} / {L("hour", "ساعة")}</Pill>
             {space.waitlist ? (
-              <Pill tone="warn">{L("Waitlist — villa bookings open soon", "قائمة انتظار — حجوزات الفلل قريبًا")}</Pill>
+              <Pill tone="warn">{L("Waitlist — villa bookings open soon", "قائمة انتظار — حجوزات الفلل قريب")}</Pill>
             ) : (
-              <Pill tone={space.openNow ? "private" : "inactive"}>{space.openNow ? L(`${space.freeNow} free now`, `${space.freeNow} متاح الآن`) : L("Closed now", "مغلق الآن")}</Pill>
+              <Pill tone={space.openNow ? "private" : "inactive"}>{space.openNow ? L(`${space.freeNow} free now`, `${space.freeNow} متاح الحين`) : L("Closed now", "مقفل الحين")}</Pill>
             )}
             {space.shadeTier && <Pill>{B(SHADE_LABEL[space.shadeTier])}</Pill>}
-            {space.metro && <Pill tone="signal"><TrainFront className="h-3 w-3" aria-hidden />{L(`${space.metro.walkMinutes} min walk to ${space.metro.name}`, `${space.metro.walkMinutes} د مشيًا إلى ${space.metro.nameAr}`)}</Pill>}
+            {space.metro && <Pill tone="signal"><TrainFront className="h-3 w-3" aria-hidden />{L(`${space.metro.walkMinutes} min walk to ${space.metro.name}`, `${space.metro.walkMinutes} د مشي لـ${space.metro.nameAr}`)}</Pill>}
             {space.accessibleBays > 0 && <Pill><Accessibility className="h-3 w-3" aria-hidden />{space.accessibleBays}</Pill>}
-            {space.rewardEligible && <Pill tone="gold">{L("Keys discount eligible", "مؤهل لخصم المفاتيح")}</Pill>}
+            {space.rewardEligible && <Pill tone="gold">{L("Keys discount eligible", "يقبل خصم المفاتيح")}</Pill>}
           </div>
           {space.approximate && (
             <p className="flex gap-1.5 text-[11px] leading-snug text-mute">
               <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              {L("Approximate area (~150 m) to protect the host's privacy. The exact bay and your gate pass appear after payment, 30 minutes before your booking.", "منطقة تقريبية (~150 م) لحماية خصوصية المضيف. يظهر الموقف الدقيق وتصريح الدخول بعد الدفع، قبل ٣٠ دقيقة من الحجز.")}
+              {L("Approximate area (~150 m) to protect the host's privacy. The exact bay and your gate pass appear after payment, 30 minutes before your booking.", "منطقة تقريبية (~150 م) عشان نحمي خصوصية المضيف. الموقف الدقيق وتصريح الدخول يطلعون بعد الدفع، قبل الحجز بـ ٣٠ دقيقة.")}
             </p>
           )}
-          {!space.waitlist && <p className="text-[11px] text-mute">{L("Bookable subject to availability.", "قابل للحجز حسب التوفر.")}</p>}
+          {!space.waitlist && <p className="text-[11px] text-mute">{L("Bookable subject to availability.", "تقدر تحجزه حسب التوفر.")}</p>}
           {!space.waitlist && (
             <ButtonLink href={space.scheduleBooking ? `/book/${space.id}` : `/parking?space=${space.id}`} variant="private" className="w-full">{L("Book this space", "احجز هذا الموقف")}</ButtonLink>
           )}

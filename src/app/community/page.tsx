@@ -36,11 +36,11 @@ export default function CommunityPage() {
 
   return (
     <div>
-      <PageHeader eyebrow={L("Neighborhood challenges", "تحديات الأحياء")} title={L("Community", "المجتمع")} subtitle={L("Progress counts only verified handoffs and approved missions — never taps, views or extra driving.", "يُحتسب التقدم فقط للتسليمات الموثقة والمهام المعتمدة — لا للنقرات أو المشاهدات أو القيادة الإضافية.")} />
+      <PageHeader eyebrow={L("Neighborhood challenges", "تحديات الأحياء")} title={L("Community", "المجتمع")} subtitle={L("Progress counts only verified handoffs and approved missions — never taps, views or extra driving.", "التقدّم ينحسب للتسليمات الموثقة والمهام المعتمدة بس — مو للنقرات ولا المشاهدات ولا اللفّ بالسيارة.")} />
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section>
-          <SectionTitle title={L("Challenges", "التحديات")} subtitle={isDriver ? undefined : L("Switch to a driver account to track your progress.", "بدّل إلى حساب سائق لتتبع تقدمك.")} />
+          <SectionTitle title={L("Challenges", "التحديات")} subtitle={isDriver ? undefined : L("Switch to a driver account to track your progress.", "حوّل لحساب سائق عشان تتابع تقدّمك.")} />
           <div className="grid gap-3 sm:grid-cols-2">
             {d.challenges.map((c) => (
               <Card key={c.id} className={cn("p-4", c.completed && "border-private/30 bg-private-soft/50")}>
@@ -67,12 +67,12 @@ export default function CommunityPage() {
           )}
 
           <div className="mt-8">
-            <SectionTitle title={L("Park & Connect — future missions", "اركن واتصل — مهام مستقبلية")} subtitle={L("Simulated: no real transit integration exists yet.", "محاكاة: لا يوجد تكامل فعلي مع النقل العام بعد.")} />
+            <SectionTitle title={L("Park & Connect — future missions", "اركن واتصل — مهام جاية")} subtitle={L("Simulated: no real transit integration exists yet.", "محاكاة: ما فيه ربط فعلي مع النقل العام للحين.")} />
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                { icon: TrainFront, en: "Park near an authorized transit connection and finish by metro", ar: "اركن قرب محطة نقل معتمدة وأكمل بالمترو" },
-                { icon: Footprints, en: "Use a walking connection when practical", ar: "استخدم المشي عندما يكون عمليًا" },
-                { icon: Users, en: "Join an approved carpooling mission", ar: "انضم إلى مهمة مشاركة سيارات معتمدة" },
+                { icon: TrainFront, en: "Park near an authorized transit connection and finish by metro", ar: "اركن قرب محطة نقل معتمدة وكمّل بالمترو" },
+                { icon: Footprints, en: "Use a walking connection when practical", ar: "امشِ إذا كان المشي أسهل" },
+                { icon: Users, en: "Join an approved carpooling mission", ar: "انضم لمهمة مشاركة سيارات معتمدة" },
               ].map((m, i) => (
                 <Card key={i} className="p-4">
                   <m.icon className="h-6 w-6 text-forest" aria-hidden />
@@ -82,18 +82,18 @@ export default function CommunityPage() {
             </div>
             {isDriver && (
               <Card className="mt-3">
-                <Notice>{L("Demo: submit a simulated mission. An admin approves it, then the mission reward is credited through the ledger. One submission per day.", "تجريبي: أرسل مهمة محاكاة. يعتمدها المشرف ثم تُضاف مكافأة المهمة عبر السجل. إرسال واحد يوميًا.")}</Notice>
+                <Notice>{L("Demo: submit a simulated mission. An admin approves it, then the mission reward is credited through the ledger. One submission per day.", "تجريبي: أرسل مهمة محاكاة. المشرف يعتمدها وبعدها تنضاف مكافأة المهمة في السجل. إرسال واحد في اليوم.")}</Notice>
                 <div className="mt-3 grid gap-3 sm:grid-cols-[200px_1fr]">
                   <Field label={L("Mission type", "نوع المهمة")}>
                     <select className={inputCls} value={kind} onChange={(e) => setKind(e.target.value as MobilityMission["kind"])}>
                       <option value="park_and_metro">{L("Park & metro", "اركن والمترو")}</option>
-                      <option value="walk_connection">{L("Walking connection", "اتصال بالمشي")}</option>
+                      <option value="walk_connection">{L("Walking connection", "مشي للمحطة")}</option>
                       <option value="carpool">{L("Carpool", "مشاركة السيارة")}</option>
                     </select>
                   </Field>
-                  <Field label={L("What did you do?", "ماذا فعلت؟")}><input className={inputCls} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={L("e.g. Parked near a station and rode to KAFD", "مثال: ركنت قرب محطة وتنقلت إلى المركز المالي")} /></Field>
+                  <Field label={L("What did you do?", "وش سوّيت؟")}><input className={inputCls} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={L("e.g. Parked near a station and rode to KAFD", "مثلًا: ركنت قرب محطة ورحت للمركز المالي")} /></Field>
                 </div>
-                <Button className="mt-3" loading={busy} onClick={async () => { setBusy(true); try { await api("/api/community", { body: { kind, description: desc } }); setDesc(""); toast(L("Mission submitted for approval.", "تم إرسال المهمة للاعتماد."), "ok"); await load(); } catch (e) { toast(errorText(e), "error"); } finally { setBusy(false); } }}>{L("Submit mission (simulated)", "إرسال المهمة (محاكاة)")}</Button>
+                <Button className="mt-3" loading={busy} onClick={async () => { setBusy(true); try { await api("/api/community", { body: { kind, description: desc } }); setDesc(""); toast(L("Mission submitted for approval.", "أرسلنا المهمة للاعتماد."), "ok"); await load(); } catch (e) { toast(errorText(e), "error"); } finally { setBusy(false); } }}>{L("Submit mission (simulated)", "أرسل المهمة (محاكاة)")}</Button>
                 {d.missions.length > 0 && (
                   <ul className="mt-4 space-y-2 text-sm">
                     {d.missions.map((m) => (
@@ -111,9 +111,9 @@ export default function CommunityPage() {
 
         <aside className="space-y-6">
           <section>
-            <SectionTitle title={L("Weekly leaderboard", "لوحة الصدارة الأسبوعية")} subtitle={L("Ranked by verified contributions, not Keys.", "مرتبة حسب المساهمات الموثقة، لا المفاتيح.")} action={<Trophy className="h-5 w-5 text-gold" aria-hidden />} />
+            <SectionTitle title={L("Weekly leaderboard", "لوحة الصدارة الأسبوعية")} subtitle={L("Ranked by verified contributions, not Keys.", "الترتيب حسب المساهمات الموثقة، مو المفاتيح.")} action={<Trophy className="h-5 w-5 text-gold" aria-hidden />} />
             <Card className="p-0">
-              {d.leaderboard.length === 0 ? <div className="p-5"><Empty>{L("No contributions this week.", "لا مساهمات هذا الأسبوع.")}</Empty></div> : (
+              {d.leaderboard.length === 0 ? <div className="p-5"><Empty>{L("No contributions this week.", "ما فيه مساهمات هالأسبوع.")}</Empty></div> : (
                 <ol className="divide-y divide-line">
                   {d.leaderboard.map((r, i) => (
                     <li key={r.userId} className={cn("flex items-center gap-3 p-3.5", r.userId === session?.user?.id && "bg-sage-mist")}>
@@ -130,7 +130,7 @@ export default function CommunityPage() {
             </Card>
           </section>
           <section>
-            <SectionTitle title={L("Neighborhood participation (7 days)", "مشاركة الأحياء (7 أيام)")} />
+            <SectionTitle title={L("Neighborhood participation (7 days)", "مشاركة الأحياء (آخر 7 أيام)")} />
             <div className="space-y-2">
               {Object.entries(NEIGHBORHOOD_LABEL).map(([id, label]) => {
                 const s = d.neighborhoods[id] ?? { reports: 0, handoffs: 0 };

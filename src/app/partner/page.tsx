@@ -22,7 +22,7 @@ const APPROVAL: Record<ParkingSpace["approval"], { en: string; ar: string; tone:
   approved: { en: "Approved", ar: "معتمد", tone: "private" },
   pending_review: { en: "Pending review", ar: "قيد المراجعة", tone: "warn" },
   rejected: { en: "Rejected", ar: "مرفوض", tone: "danger" },
-  paused: { en: "Paused", ar: "متوقف مؤقتًا", tone: "inactive" },
+  paused: { en: "Paused", ar: "موقّف مؤقتًا", tone: "inactive" },
 };
 
 /** SCREEN 8 — Parking partner dashboard. */
@@ -36,7 +36,7 @@ export default function PartnerPage() {
     if (session?.user?.role === "partner") void load();
   }, [load, session?.user?.id, session?.user?.role]);
 
-  if (session && session.user?.role !== "partner") return <Card className="mx-auto max-w-lg text-center text-sm">{L("Switch to the demo parking partner account to open this dashboard.", "بدّل إلى حساب الشريك التجريبي لفتح هذه اللوحة.")}</Card>;
+  if (session && session.user?.role !== "partner") return <Card className="mx-auto max-w-lg text-center text-sm">{L("Switch to the demo parking partner account to open this dashboard.", "حوّل لحساب الشريك التجريبي عشان تفتح هذي اللوحة.")}</Card>;
   if (!d) return <Skeleton className="h-96" />;
   if (!d.partner) return <PartnerApplication onDone={load} />;
 
@@ -52,28 +52,28 @@ export default function PartnerPage() {
 
   return (
     <div>
-      <PageHeader eyebrow={L("Parking partner", "شريك مواقف")} title={lang === "ar" ? p.nameAr : p.name} subtitle={L("Manage authorized listings, schedules, bookings and reward eligibility.", "أدر الإعلانات المعتمدة والجداول والحجوزات وأهلية المكافآت.")}>
+      <PageHeader eyebrow={L("Parking partner", "شريك مواقف")} title={lang === "ar" ? p.nameAr : p.name} subtitle={L("Manage authorized listings, schedules, bookings and reward eligibility.", "أدِر إعلاناتك المعتمدة والجداول والحجوزات وأهلية المكافآت.")}>
         <div className="flex items-center gap-2">
-          <Pill tone={p.status === "approved" ? "private" : p.status === "pending" ? "warn" : "danger"}>{B({ approved: { en: "Approved partner", ar: "شريك معتمد" }, pending: { en: "Application pending", ar: "الطلب قيد المراجعة" }, rejected: { en: "Rejected", ar: "مرفوض" }, suspended: { en: "Suspended", ar: "موقوف" } }[p.status])}</Pill>
+          <Pill tone={p.status === "approved" ? "private" : p.status === "pending" ? "warn" : "danger"}>{B({ approved: { en: "Approved partner", ar: "شريك معتمد" }, pending: { en: "Application pending", ar: "الطلب تحت المراجعة" }, rejected: { en: "Rejected", ar: "مرفوض" }, suspended: { en: "Suspended", ar: "موقوف" } }[p.status])}</Pill>
           {p.isDemo && <DemoTag />}
         </div>
       </PageHeader>
 
-      {p.status !== "approved" && <Notice>{L("Your application is being reviewed. You can list spaces once an administrator approves your partner account.", "طلبك قيد المراجعة. يمكنك عرض المواقف بعد اعتماد المشرف لحساب الشريك.")}</Notice>}
+      {p.status !== "approved" && <Notice>{L("Your application is being reviewed. You can list spaces once an administrator approves your partner account.", "طلبك تحت المراجعة. تقدر تعرض مواقفك بعد ما يعتمد المشرف حساب الشريك.")}</Notice>}
 
       {d.stats && (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <Stat label={L("Listed spaces", "المواقف المعروضة")} value={d.spaces.length} />
           <Stat label={L("Bookings", "الحجوزات")} value={d.stats.totalBookings} tone="private" />
-          <Stat label={L("Occupancy (next 7 days)", "الإشغال (7 أيام قادمة)")} value={`${Math.round(d.stats.occupancy7d * 100)}%`} />
-          <Stat label={L("Estimated revenue (simulated)", "الإيراد المقدر (محاكاة)")} value={fmtSar(d.stats.estimatedRevenue, lang)} tone="gold" />
+          <Stat label={L("Occupancy (next 7 days)", "الإشغال (الـ7 أيام الجاية)")} value={`${Math.round(d.stats.occupancy7d * 100)}%`} />
+          <Stat label={L("Estimated revenue (simulated)", "الدخل المتوقع (محاكاة)")} value={fmtSar(d.stats.estimatedRevenue, lang)} tone="gold" />
         </div>
       )}
 
       <section className="mt-8">
         <SectionTitle
           title={L("Listed spaces & availability", "المواقف والتوفر")}
-          action={p.status === "approved" && <Button size="sm" onClick={() => setShowForm((s) => !s)}><Plus className="h-4 w-4" aria-hidden />{L("Submit a space", "أضف موقفًا")}</Button>}
+          action={p.status === "approved" && <Button size="sm" onClick={() => setShowForm((s) => !s)}><Plus className="h-4 w-4" aria-hidden />{L("Submit a space", "أضف موقف")}</Button>}
         />
         {showForm && <SpaceForm onDone={() => { setShowForm(false); void load(); }} />}
         <div className="grid gap-3 md:grid-cols-2">
@@ -94,11 +94,11 @@ export default function PartnerPage() {
               <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" checked={s.rewardEligible} onChange={(e) => toggle(s, { rewardEligible: e.target.checked })} className="h-4 w-4 accent-[var(--color-gold)]" />
-                  {L("Accept RAKNA KEYS discounts", "قبول خصومات مفاتيح ركنة")}
+                  {L("Accept RAKNA KEYS discounts", "اقبل خصومات مفاتيح ركنة")}
                 </label>
                 {(s.approval === "approved" || s.approval === "paused") && (
                   <Button size="sm" variant="secondary" onClick={() => toggle(s, { paused: s.approval === "approved" })}>
-                    {s.approval === "approved" ? L("Pause listing", "إيقاف مؤقت") : L("Resume listing", "استئناف")}
+                    {s.approval === "approved" ? L("Pause listing", "وقّف مؤقتًا") : L("Resume listing", "كمّل")}
                   </Button>
                 )}
               </div>
@@ -111,7 +111,7 @@ export default function PartnerPage() {
         <section>
           <SectionTitle title={L("Reservations", "الحجوزات")} />
           <Card className="overflow-x-auto p-0">
-            {d.bookings.length === 0 ? <div className="p-5"><Empty>{L("No bookings yet.", "لا توجد حجوزات بعد.")}</Empty></div> : (
+            {d.bookings.length === 0 ? <div className="p-5"><Empty>{L("No bookings yet.", "ما فيه حجوزات للحين.")}</Empty></div> : (
               <table className="w-full min-w-[520px] text-sm">
                 <thead className="bg-sage-mist text-xs text-mute">
                   <tr><th className="p-3 text-start font-medium">{L("Space", "الموقف")}</th><th className="p-3 text-start font-medium">{L("Start", "البداية")}</th><th className="p-3 text-start font-medium">{L("Hours", "الساعات")}</th><th className="p-3 text-start font-medium">{L("Net", "الصافي")}</th><th className="p-3 text-start font-medium">{L("Status", "الحالة")}</th></tr>
@@ -137,7 +137,7 @@ export default function PartnerPage() {
         <section>
           <SectionTitle title={L("Partner rewards configuration", "إعداد مكافآت الشريك")} />
           <Card>
-            <p className="text-xs text-mute">{L("Discounts drivers can apply at your spaces that accept RAKNA KEYS. Discounts are simulated; funding arrangements will be agreed with each partner before launch.", "الخصومات التي يمكن للسائقين تطبيقها في مواقفك التي تقبل مفاتيح ركنة. الخصومات محاكاة؛ وسيُتفق على ترتيبات التمويل مع كل شريك قبل الإطلاق.")}</p>
+            <p className="text-xs text-mute">{L("Discounts drivers can apply at your spaces that accept RAKNA KEYS. Discounts are simulated; funding arrangements will be agreed with each partner before launch.", "الخصومات اللي يقدر السائقين يطبقونها في مواقفك اللي تقبل مفاتيح ركنة. الخصومات محاكاة، وبنتفق على التمويل مع كل شريك قبل الإطلاق.")}</p>
             <ul className="mt-3 space-y-2">
               {d.eligibleRewards.map((r) => (
                 <li key={r.id} className="flex items-center justify-between gap-2 rounded-xl bg-sage-mist p-3 text-sm">
@@ -146,7 +146,7 @@ export default function PartnerPage() {
                 </li>
               ))}
             </ul>
-            {d.stats && <p className="mt-3 text-xs text-mute">{L("Discounts applied so far:", "إجمالي الخصومات المطبقة:")} {fmtSar(d.stats.discountsFunded, lang)}</p>}
+            {d.stats && <p className="mt-3 text-xs text-mute">{L("Discounts applied so far:", "مجموع الخصومات المطبقة:")} {fmtSar(d.stats.discountsFunded, lang)}</p>}
           </Card>
         </section>
       </div>
@@ -160,22 +160,22 @@ function PartnerApplication({ onDone }: { onDone: () => void }) {
   const [busy, setBusy] = useState(false);
   return (
     <div className="mx-auto max-w-xl">
-      <PageHeader eyebrow={L("Become a partner", "كن شريكًا")} title={L("Register as a parking partner", "سجّل كشريك مواقف")} subtitle={L("Only owners or authorized operators may list private parking. An administrator verifies every application.", "يحق فقط للملاك أو المشغلين المفوضين عرض المواقف الخاصة. يتحقق المشرف من كل طلب.")} />
+      <PageHeader eyebrow={L("Become a partner", "صير شريك")} title={L("Register as a parking partner", "سجّل كشريك مواقف")} subtitle={L("Only owners or authorized operators may list private parking. An administrator verifies every application.", "يحق فقط للملاك أو المشغّلين المفوّضين يعرضون مواقف خاصة. المشرف يتحقق من كل طلب.")} />
       <Card className="space-y-4">
         <Field label={L("Business name", "اسم المنشأة")}><input className={inputCls} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></Field>
-        <Field label={L("Business name (Arabic)", "اسم المنشأة (بالعربية)")}><input className={inputCls} value={f.nameAr} onChange={(e) => setF({ ...f, nameAr: e.target.value })} /></Field>
+        <Field label={L("Business name (Arabic)", "اسم المنشأة (بالعربي)")}><input className={inputCls} value={f.nameAr} onChange={(e) => setF({ ...f, nameAr: e.target.value })} /></Field>
         <Field label={L("Type", "النوع")}>
           <select className={inputCls} value={f.kind} onChange={(e) => setF({ ...f, kind: e.target.value })}>
-            {[["hotel", "Hotel", "فندق"], ["office", "Office building", "مبنى مكاتب"], ["mall", "Mall", "مركز تجاري"], ["operator", "Parking operator", "مشغل مواقف"], ["residential", "Residential compound", "مجمع سكني"]].map(([v, en, ar]) => <option key={v} value={v}>{L(en, ar)}</option>)}
+            {[["hotel", "Hotel", "فندق"], ["office", "Office building", "مبنى مكاتب"], ["mall", "Mall", "مول"], ["operator", "Parking operator", "مشغل مواقف"], ["residential", "Residential compound", "مجمع سكني"]].map(([v, en, ar]) => <option key={v} value={v}>{L(en, ar)}</option>)}
           </select>
         </Field>
         <Field label={L("Business contact email", "البريد الإلكتروني للمنشأة")}><input type="email" className={inputCls} value={f.contactEmail} onChange={(e) => setF({ ...f, contactEmail: e.target.value })} /></Field>
         <label className="flex items-start gap-2 text-sm">
           <input type="checkbox" checked={f.crNumberProvided} onChange={(e) => setF({ ...f, crNumberProvided: e.target.checked })} className="mt-1 h-4 w-4" />
-          {L("I can provide a Commercial Registration and proof of authority over the parking (verified offline in the MVP).", "يمكنني تقديم السجل التجاري وإثبات الصلاحية على المواقف (يُتحقق منها خارج النظام في هذه النسخة).")}
+          {L("I can provide a Commercial Registration and proof of authority over the parking (verified offline in the MVP).", "أقدر أقدّم السجل التجاري وإثبات الصلاحية على المواقف (التحقق منها يتم خارج النظام في هذي النسخة).")}
         </label>
-        <Button className="w-full" loading={busy} onClick={async () => { setBusy(true); try { await api("/api/partner", { body: f }); toast(L("Application submitted.", "تم إرسال الطلب."), "ok"); onDone(); } catch (e) { toast(errorText(e), "error"); } finally { setBusy(false); } }}>
-          {L("Submit application", "إرسال الطلب")}
+        <Button className="w-full" loading={busy} onClick={async () => { setBusy(true); try { await api("/api/partner", { body: f }); toast(L("Application submitted.", "انرسل الطلب."), "ok"); onDone(); } catch (e) { toast(errorText(e), "error"); } finally { setBusy(false); } }}>
+          {L("Submit application", "أرسل الطلب")}
         </Button>
       </Card>
     </div>
@@ -199,7 +199,7 @@ function SpaceForm({ onDone }: { onDone: () => void }) {
           conditions: f.conditions, conditionsAr: f.conditionsAr, rewardEligible: f.rewardEligible,
         },
       });
-      toast(L("Space submitted for admin review.", "تم إرسال الموقف لمراجعة المشرف."), "ok");
+      toast(L("Space submitted for admin review.", "انرسل الموقف لمراجعة المشرف."), "ok");
       onDone();
     } catch (e) {
       toast(errorText(e), "error");
@@ -209,20 +209,20 @@ function SpaceForm({ onDone }: { onDone: () => void }) {
   };
   return (
     <Card className="mb-4 border-forest/20">
-      <h3 className="mb-4 flex items-center gap-2 font-bold"><Building2 className="h-5 w-5" aria-hidden />{L("New private space (enters admin review)", "موقف خاص جديد (يخضع لمراجعة المشرف)")}</h3>
+      <h3 className="mb-4 flex items-center gap-2 font-bold"><Building2 className="h-5 w-5" aria-hidden />{L("New private space (enters admin review)", "موقف خاص جديد (يمر على مراجعة المشرف)")}</h3>
       <div className="grid gap-4 md:grid-cols-2">
         <Field label={L("Title", "العنوان")}><input className={inputCls} value={f.title} onChange={(e) => setF({ ...f, title: e.target.value })} /></Field>
-        <Field label={L("Title (Arabic)", "العنوان (بالعربية)")}><input className={inputCls} value={f.titleAr} onChange={(e) => setF({ ...f, titleAr: e.target.value })} /></Field>
+        <Field label={L("Title (Arabic)", "العنوان (بالعربي)")}><input className={inputCls} value={f.titleAr} onChange={(e) => setF({ ...f, titleAr: e.target.value })} /></Field>
         <Field label={L("Address", "العنوان التفصيلي")}><input className={inputCls} value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} /></Field>
         <Field label={L("Neighborhood", "الحي")}>
           <select className={inputCls} value={hood} onChange={(e) => setHood(e.target.value)}>{NEIGHBORHOODS.map((n) => <option key={n.id} value={n.id}>{B(NEIGHBORHOOD_LABEL[n.id])}</option>)}</select>
         </Field>
-        <Field label={L("Latitude (optional)", "خط العرض (اختياري)")} hint={L("Defaults to the neighborhood center.", "الافتراضي مركز الحي.")}><input className={inputCls} inputMode="decimal" value={f.lat} onChange={(e) => setF({ ...f, lat: e.target.value })} placeholder={String(center.lat)} /></Field>
+        <Field label={L("Latitude (optional)", "خط العرض (اختياري)")} hint={L("Defaults to the neighborhood center.", "الافتراضي وسط الحي.")}><input className={inputCls} inputMode="decimal" value={f.lat} onChange={(e) => setF({ ...f, lat: e.target.value })} placeholder={String(center.lat)} /></Field>
         <Field label={L("Longitude (optional)", "خط الطول (اختياري)")}><input className={inputCls} inputMode="decimal" value={f.lng} onChange={(e) => setF({ ...f, lng: e.target.value })} placeholder={String(center.lng)} /></Field>
         <Field label={L("Capacity (spaces)", "السعة (مواقف)")}><input type="number" min={1} className={inputCls} value={f.capacity} onChange={(e) => setF({ ...f, capacity: Number(e.target.value) })} /></Field>
-        <Field label={L("Price per hour (SAR)", "السعر للساعة (ريال)")}><input type="number" min={0} step={0.5} className={inputCls} value={f.pricePerHour} onChange={(e) => setF({ ...f, pricePerHour: Number(e.target.value) })} /></Field>
-        <Field label={L("Opens (hour)", "يفتح (ساعة)")}><input type="number" min={0} max={23} className={inputCls} value={f.openHour} onChange={(e) => setF({ ...f, openHour: Number(e.target.value) })} /></Field>
-        <Field label={L("Closes (hour)", "يغلق (ساعة)")}><input type="number" min={1} max={24} className={inputCls} value={f.closeHour} onChange={(e) => setF({ ...f, closeHour: Number(e.target.value) })} /></Field>
+        <Field label={L("Price per hour (SAR)", "السعر بالساعة (ريال)")}><input type="number" min={0} step={0.5} className={inputCls} value={f.pricePerHour} onChange={(e) => setF({ ...f, pricePerHour: Number(e.target.value) })} /></Field>
+        <Field label={L("Opens (hour)", "يفتح (الساعة)")}><input type="number" min={0} max={23} className={inputCls} value={f.openHour} onChange={(e) => setF({ ...f, openHour: Number(e.target.value) })} /></Field>
+        <Field label={L("Closes (hour)", "يقفل (الساعة)")}><input type="number" min={1} max={24} className={inputCls} value={f.closeHour} onChange={(e) => setF({ ...f, closeHour: Number(e.target.value) })} /></Field>
       </div>
       <div className="mt-4">
         <span className="mb-1.5 block text-sm font-medium text-ink-2">{L("Available days", "الأيام المتاحة")}</span>
@@ -233,8 +233,8 @@ function SpaceForm({ onDone }: { onDone: () => void }) {
         </div>
       </div>
       <div className="mt-4"><Field label={L("Booking conditions", "شروط الحجز")}><textarea className={cn(inputCls, "h-20 py-2")} value={f.conditions} onChange={(e) => setF({ ...f, conditions: e.target.value })} /></Field></div>
-      <label className="mt-3 flex items-center gap-2 text-sm"><input type="checkbox" checked={f.rewardEligible} onChange={(e) => setF({ ...f, rewardEligible: e.target.checked })} className="h-4 w-4" />{L("Accept RAKNA KEYS discounts", "قبول خصومات مفاتيح ركنة")}</label>
-      <Button className="mt-4" onClick={submit} loading={busy}>{L("Submit for review", "إرسال للمراجعة")}</Button>
+      <label className="mt-3 flex items-center gap-2 text-sm"><input type="checkbox" checked={f.rewardEligible} onChange={(e) => setF({ ...f, rewardEligible: e.target.checked })} className="h-4 w-4" />{L("Accept RAKNA KEYS discounts", "اقبل خصومات مفاتيح ركنة")}</label>
+      <Button className="mt-4" onClick={submit} loading={busy}>{L("Submit for review", "أرسل للمراجعة")}</Button>
     </Card>
   );
 }

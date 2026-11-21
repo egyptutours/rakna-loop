@@ -21,9 +21,9 @@ interface AssistantResult {
 }
 
 const EXAMPLES = [
-  { en: "I need parking near Al Olaya at 9 AM for two hours, within a reasonable walking distance and a budget of 20 SAR.", ar: "أحتاج موقفًا قرب العليا الساعة 9 صباحًا لمدة ساعتين، ضمن مسافة مشي معقولة وميزانية 20 ريال." },
-  { en: "Parking on King Fahd Road now for 1 hour, very close", ar: "موقف على طريق الملك فهد الآن لمدة ساعة، قريب جدًا" },
-  { en: "Somewhere in Al Wurud tomorrow at 10:30 am for 3 hours under 25 SAR", ar: "مكان في الورود بكرة الساعة 10:30 صباحًا لمدة 3 ساعات بأقل من 25 ريال" },
+  { en: "I need parking near Al Olaya at 9 AM for two hours, within a reasonable walking distance and a budget of 20 SAR.", ar: "أبي موقف قرب العليا الساعة 9 الصبح لمدة ساعتين، مشي معقول وميزانيتي 20 ريال." },
+  { en: "Parking on King Fahd Road now for 1 hour, very close", ar: "موقف على طريق الملك فهد الحين لمدة ساعة، قريب مره" },
+  { en: "Somewhere in Al Wurud tomorrow at 10:30 am for 3 hours under 25 SAR", ar: "مكان في الورود بكرة الساعة 10:30 الصبح لمدة 3 ساعات بأقل من 25 ريال" },
 ];
 
 /** AI Parking Assistant — natural language in Arabic or English. */
@@ -66,13 +66,13 @@ function Assistant() {
 
   return (
     <div className="mx-auto max-w-4xl">
-      <PageHeader eyebrow={L("AI parking assistant", "مساعد المواقف الذكي")} title={L("Where do you need to park?", "أين تحتاج أن تركن؟")} subtitle={L("Ask in Arabic or English. Results come only from approved listings and live community signals — never invented availability.", "اسأل بالعربية أو الإنجليزية. النتائج من المواقف المعتمدة والإشارات المجتمعية الحية فقط — دون اختلاق التوفر.")}>
+      <PageHeader eyebrow={L("AI parking assistant", "مساعد المواقف الذكي")} title={L("Where do you need to park?", "وين تبي تركن؟")} subtitle={L("Ask in Arabic or English. Results come only from approved listings and live community signals — never invented availability.", "اسأل بالعربي أو الإنجليزي. النتايج من المواقف المعتمدة والإشارات المجتمعية الحية بس — ما نخترع توفر.")}>
         {session && <Pill tone={session.aiEnabled ? "forest" : "neutral"}>{session.aiEnabled ? <><Sparkles className="h-3 w-3" aria-hidden />{L("Claude-assisted understanding", "فهم مدعوم بـ Claude")}</> : <><Bot className="h-3 w-3" aria-hidden />{L("Rule-based engine (no AI key)", "محرك قواعد (بدون مفتاح ذكاء اصطناعي)")}</>}</Pill>}
       </PageHeader>
 
       <Card className="p-3">
         <form onSubmit={(e) => { e.preventDefault(); void ask(); }} className="flex flex-col gap-2 sm:flex-row">
-          <textarea value={q} onChange={(e) => setQ(e.target.value)} rows={2} maxLength={1000} placeholder={L("e.g. Parking near Al Olaya at 9 AM for 2 hours, budget 20 SAR", "مثال: موقف قرب العليا الساعة 9 صباحًا لمدة ساعتين، ميزانية 20 ريال")} className="min-h-[3.5rem] flex-1 resize-none rounded-xl bg-sage-mist px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage" aria-label={L("Your parking request", "طلبك")} />
+          <textarea value={q} onChange={(e) => setQ(e.target.value)} rows={2} maxLength={1000} placeholder={L("e.g. Parking near Al Olaya at 9 AM for 2 hours, budget 20 SAR", "مثلًا: أبي موقف قرب العليا الساعة 9 الصبح لمدة ساعتين، ميزانيتي 20 ريال")} className="min-h-[3.5rem] flex-1 resize-none rounded-xl bg-sage-mist px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage" aria-label={L("Your parking request", "طلبك")} />
           <Button type="submit" size="lg" loading={busy} className="sm:w-36"><Send className="h-4 w-4" aria-hidden />{L("Ask", "اسأل")}</Button>
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -88,13 +88,13 @@ function Assistant() {
         <div className="mt-6 space-y-4">
           <div className="flex flex-wrap gap-2">
             {chip(L("Destination", "الوجهة"), res.parsed.destination ? B(NEIGHBORHOOD_LABEL[res.parsed.destination]) : L("Any", "أي مكان"), res.parsed.understood.includes("destination"))}
-            {chip(L("Arrival", "الوصول"), res.parsed.arrivalIsNow ? L("Now", "الآن") : fmtDateTime(res.parsed.arrival, lang), res.parsed.understood.includes("arrival"))}
+            {chip(L("Arrival", "الوصول"), res.parsed.arrivalIsNow ? L("Now", "الحين") : fmtDateTime(res.parsed.arrival, lang), res.parsed.understood.includes("arrival"))}
             {chip(L("Duration", "المدة"), `${res.parsed.durationHours} ${L("h", "س")}`, res.parsed.understood.includes("duration"))}
-            {chip(L("Budget", "الميزانية"), res.parsed.budgetSar !== null ? fmtSar(res.parsed.budgetSar, lang) : L("Not set", "غير محددة"), res.parsed.understood.includes("budget"))}
+            {chip(L("Budget", "الميزانية"), res.parsed.budgetSar !== null ? fmtSar(res.parsed.budgetSar, lang) : L("Not set", "مو محددة"), res.parsed.understood.includes("budget"))}
             {chip(L("Walking", "المشي"), `≤ ${res.parsed.maxWalkM} m`, res.parsed.understood.includes("walk"))}
             <Pill tone={res.engine === "ai" ? "forest" : "neutral"}>{res.engine === "ai" ? L("Understood by Claude", "فهمه Claude") : L("Understood by rules", "فهمته القواعد")}</Pill>
           </div>
-          {res.aiConfigured && res.engine === "rules" && <Notice tone="info">{L("The AI service was unavailable, so the deterministic engine handled this request.", "خدمة الذكاء الاصطناعي غير متاحة، لذا عالج المحرك القائم على القواعد هذا الطلب.")}</Notice>}
+          {res.aiConfigured && res.engine === "rules" && <Notice tone="info">{L("The AI service was unavailable, so the deterministic engine handled this request.", "خدمة الذكاء الاصطناعي مو متاحة، فتعامل محرك القواعد مع طلبك.")}</Notice>}
           {res.notes.map((n, i) => <Notice key={i} tone="info">{B(n)}</Notice>)}
 
           {res.results.map((r, i) => (
@@ -104,7 +104,7 @@ function Assistant() {
                   <span className={cn("num grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-bold text-white", r.kind === "private" ? "bg-private" : "bg-signal")}>{i + 1}</span>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      {r.kind === "private" ? <Pill tone="private"><Building2 className="h-3 w-3" aria-hidden />{L("Bookable private space", "موقف خاص قابل للحجز")}</Pill> : <Pill tone="signal"><Radio className="h-3 w-3" aria-hidden />{L("Community signal — not guaranteed", "إشارة مجتمعية — غير مضمونة")}</Pill>}
+                      {r.kind === "private" ? <Pill tone="private"><Building2 className="h-3 w-3" aria-hidden />{L("Bookable private space", "موقف خاص تقدر تحجزه")}</Pill> : <Pill tone="signal"><Radio className="h-3 w-3" aria-hidden />{L("Community signal — not guaranteed", "إشارة مجتمعية — مو مضمونة")}</Pill>}
                       {r.confidence && <Pill>{B(CONFIDENCE_LABEL[r.confidence])}</Pill>}
                     </div>
                     <h3 className="mt-2 font-bold">{lang === "ar" ? r.titleAr : r.title}</h3>
@@ -122,7 +122,7 @@ function Assistant() {
                 {r.kind === "private" ? (
                   <Link href={`/parking?space=${r.id}`} className="inline-flex h-10 items-center rounded-xl bg-private px-4 text-sm font-semibold text-white">{L("Book (subject to availability)", "احجز (حسب التوفر)")}</Link>
                 ) : (
-                  <Link href={`/reports/${r.id}`} className="inline-flex h-10 items-center rounded-xl bg-signal px-4 text-sm font-semibold text-white">{L("View signal", "عرض الإشارة")}</Link>
+                  <Link href={`/reports/${r.id}`} className="inline-flex h-10 items-center rounded-xl bg-signal px-4 text-sm font-semibold text-white">{L("View signal", "شوف الإشارة")}</Link>
                 )}
               </div>
             </Card>

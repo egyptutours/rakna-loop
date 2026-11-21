@@ -1,36 +1,88 @@
 @import "tailwindcss";
 
-/* RAKNA LOOP design tokens — premium Saudi smart-city palette */
+/*
+ * RAKNA LOOP design tokens — Najdi palette.
+ * Inspired by Najd: mud-brick walls (طين), desert sand, palm green, the deep red and indigo
+ * of Al Sadu (السدو) weaving, and charcoal. Token NAMES are unchanged so every component keeps
+ * working; "forest" is now the dark mud-brick/coffee primary. Every text/background pair used
+ * in the UI was checked for WCAG AA (≥ 4.5:1).
+ * Map meaning-carrying colors stay distinct: community signal = blue, private parking = palm green,
+ * inactive = grey.
+ */
 @theme {
-  --color-forest: #163828;
-  --color-forest-2: #1f4d38;
-  --color-forest-3: #2c6249;
-  --color-sage: #a7bea3;
-  --color-sage-soft: #e4ece1;
-  --color-sage-mist: #f0f4ee;
-  --color-paper: #f7f5ef;
-  --color-card: #fffefb;
-  --color-ink: #212528;
-  --color-ink-2: #3a3f43;
-  --color-mute: #6a706c;
-  --color-line: #e4e1d8;
-  --color-signal: #2563c9;   /* community signal — not guaranteed */
-  --color-signal-soft: #e5eefb;
-  --color-private: #1f8a55;  /* approved private parking */
-  --color-private-soft: #e2f3ea;
-  --color-inactive: #9a9f9c;
-  --color-gold: #b08d4f;     /* RAKNA KEYS accent */
-  --color-gold-soft: #f4ecdc;
-  --color-danger: #b4402f;
-  --color-danger-soft: #f8e6e2;
-  --color-warn: #a86b12;
-  --color-warn-soft: #fbf0db;
+  --color-forest: #3b2719;   /* burnt mud-brick — primary (white text 14:1) */
+  --color-forest-2: #503524;
+  --color-forest-3: #6e4a31;
+  --color-sage: #d8c29e;     /* clay sand */
+  --color-sage-soft: #efe3cd;
+  --color-sage-mist: #f6eedf;
+  --color-paper: #f5ede0;    /* desert sand background */
+  --color-card: #fffcf6;
+  --color-ink: #2a2019;
+  --color-ink-2: #44372c;
+  --color-mute: #6b5d50;
+  --color-line: #e3d5bd;
+  --color-signal: #2457b8;   /* community signal — not guaranteed */
+  --color-signal-soft: #e4ecf8;
+  --color-private: #1c7a4c;  /* approved private parking — palm green */
+  --color-private-soft: #dff0e6;
+  --color-inactive: #9a958e;
+  --color-inactive-soft: #ece7df;
+  --color-gold: #8a5a1a;     /* RAKNA KEYS accent — Najdi ochre */
+  --color-gold-soft: #f4e4c8;
+  --color-keys: #e8c98e;     /* Keys on dark backgrounds */
+  --color-danger: #a8352a;
+  --color-danger-soft: #f7e3df;
+  --color-warn: #8a560c;
+  --color-warn-soft: #f8ecd4;
+  /* decorative only (motifs) */
+  --color-sadu: #8e2c2a;     /* Al Sadu red */
+  --color-sadu-soft: #f5e1dd;
+  --color-indigo: #2b2d52;   /* Al Sadu indigo */
+  --color-clay: #b98b5e;     /* mud-brick crenellations */
 
   --font-sans: var(--font-plex), "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-kufi), var(--font-plex), "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
 
   --radius-card: 1.25rem;
-  --shadow-soft: 0 1px 2px rgb(22 56 40 / 0.04), 0 8px 24px -12px rgb(22 56 40 / 0.18);
-  --shadow-lift: 0 2px 4px rgb(22 56 40 / 0.06), 0 18px 40px -18px rgb(22 56 40 / 0.35);
+  --shadow-soft: 0 1px 2px rgb(59 39 25 / 0.05), 0 8px 24px -12px rgb(59 39 25 / 0.2);
+  --shadow-lift: 0 2px 4px rgb(59 39 25 / 0.07), 0 18px 40px -18px rgb(59 39 25 / 0.38);
+}
+
+/* Arabic headings use a Kufi face (Najdi character); English keeps the body face. */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] .font-heading {
+  font-family: var(--font-heading);
+  line-height: 1.5;
+}
+
+/* ─── Najdi motifs (inline SVG, a few hundred bytes each; purely decorative) ─── */
+
+/* Al Sadu (السدو) woven band: red zigzag on charcoal with ochre diamonds. */
+.najdi-sadu {
+  background-color: #2a2019;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 8 6 0 12 8z' fill='%238e2c2a'/%3E%3Cpath d='M12 0l6 8 6-8z' fill='%238e2c2a'/%3E%3Cpath d='M12 2.5 13.5 4 12 5.5 10.5 4z' fill='%23e8c98e'/%3E%3Cpath d='M0 2.5 1.5 4 0 5.5zM24 2.5 22.5 4 24 5.5z' fill='%23e8c98e'/%3E%3C/svg%3E");
+  background-size: 24px 100%;
+  background-repeat: repeat-x;
+}
+
+/* Najdi stepped wall crenellations (الشرفات النجدية), sitting on a thin wall line. */
+.najdi-crenel {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='10' viewBox='0 0 18 10'%3E%3Cpath d='M1 10V8h2V6h2V4h2V2h4v2h2v2h2v2h2v2z' fill='%23b98b5e' fill-opacity='.55'/%3E%3Cpath d='M0 9.5h18' stroke='%23b98b5e' stroke-opacity='.55'/%3E%3C/svg%3E");
+  background-size: 18px 100%;
+  background-repeat: repeat-x;
+}
+
+/* Faint Najdi-door geometry (diamond lattice) for empty states and onboarding. */
+.najdi-door {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2 26 14 14 26 2 14z' fill='none' stroke='%233b2719' stroke-opacity='.08'/%3E%3Cpath d='M14 9l5 5-5 5-5-5z' fill='%238e2c2a' fill-opacity='.06'/%3E%3C/svg%3E");
+  background-size: 28px 28px;
+}
+.najdi-door-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2 26 14 14 26 2 14z' fill='none' stroke='%23e8c98e' stroke-opacity='.18'/%3E%3Cpath d='M14 9l5 5-5 5-5-5z' fill='%23e8c98e' fill-opacity='.10'/%3E%3C/svg%3E");
+  background-size: 28px 28px;
 }
 
 html {

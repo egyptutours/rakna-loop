@@ -13,19 +13,19 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
 
   const slides = [
-    { icon: HeartHandshake, title: L("Help another driver", "ساعد سائقًا آخر"), body: L("Leaving a public spot? Tap “I'm Leaving” and nearby drivers see a short-lived community signal.", "تغادر موقفًا عامًا؟ اضغط «أنا مغادر» ليرى السائقون القريبون إشارة مجتمعية قصيرة المدة.") },
-    { icon: Car, title: L("Find parking faster", "اعثر على موقف أسرع"), body: L("See community signals with a transparent confidence score, plus approved private parking you can book.", "شاهد الإشارات المجتمعية مع درجة ثقة واضحة، ومواقف خاصة معتمدة يمكنك حجزها.") },
-    { icon: KeyRound, title: L("Earn RAKNA KEYS", "اكسب مفاتيح ركنة"), body: L("When another driver verifies on site that they found your spot, you earn Keys. Verified, never self-claimed.", "عندما يؤكد سائق آخر في الموقع أنه وجد موقفك، تكسب مفاتيح. بالتحقق فقط، لا بالادعاء.") },
-    { icon: Gift, title: L("Redeem eligible rewards", "استبدل مكافآت مؤهلة"), body: L("Use Keys for partner parking discounts and perks. Keys are loyalty points — not money, not crypto.", "استخدم المفاتيح لخصومات مواقف الشركاء ومزاياهم. المفاتيح نقاط ولاء — ليست نقودًا ولا عملة رقمية.") },
+    { icon: HeartHandshake, title: L("Help another driver", "فزّع لسائق ثاني"), body: L("Leaving a public spot? Tap “I'm Leaving” and nearby drivers see a short-lived community signal.", "بتطلع من موقف عام؟ اضغط «بطلع الحين» عشان السائقين اللي حولك يشوفون إشارة مجتمعية قصيرة.") },
+    { icon: Car, title: L("Find parking faster", "الق موقفك أسرع"), body: L("See community signals with a transparent confidence score, plus approved private parking you can book.", "شوف الإشارات المجتمعية مع درجة ثقة واضحة، ومواقف خاصة معتمدة تقدر تحجزها.") },
+    { icon: KeyRound, title: L("Earn RAKNA KEYS", "اكسب مفاتيح ركنة"), body: L("When another driver verifies on site that they found your spot, you earn Keys. Verified, never self-claimed.", "إذا أكّد سائق ثاني في الموقع إنه لقى موقفك، تكسب مفاتيح. بالتحقق بس، مو بالكلام.") },
+    { icon: Gift, title: L("Redeem eligible rewards", "استبدل مكافآت مؤهلة"), body: L("Use Keys for partner parking discounts and perks. Keys are loyalty points — not money, not crypto.", "استخدم المفاتيح لخصومات مواقف الشركاء ومزاياهم. المفاتيح نقاط ولاء — مو فلوس ولا عملة رقمية.") },
   ];
   const last = step === slides.length;
   const Next = dir === "rtl" ? ArrowLeft : ArrowRight;
   const S = slides[Math.min(step, slides.length - 1)];
 
   return (
-    <div className="fixed inset-0 z-[80] grid place-items-center bg-forest/70 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={L("Welcome", "مرحبًا")}>
+    <div className="fixed inset-0 z-[80] grid place-items-center bg-forest/70 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={L("Welcome", "يا هلا")}>
       <div className="w-full max-w-md overflow-hidden rounded-[1.75rem] bg-paper shadow-[var(--shadow-lift)]">
-        <div className="bg-forest px-6 pb-6 pt-7 text-white">
+        <div className="najdi-door-light bg-forest px-6 pb-6 pt-7 text-white">
           <div className="flex items-center gap-3">
             <Logo className="h-11 w-11" />
             <div>
@@ -34,7 +34,8 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
             </div>
           </div>
         </div>
-        <div className="p-6">
+        <div className="najdi-sadu h-1.5" aria-hidden />
+        <div className="najdi-door p-6">
           {!last ? (
             <div className="min-h-[190px]">
               <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-sage-soft text-forest">
@@ -45,8 +46,8 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
             </div>
           ) : (
             <div className="min-h-[190px]">
-              <h2 className="text-xl font-bold text-forest">{L("Choose a demo account", "اختر حسابًا تجريبيًا")}</h2>
-              <p className="mt-1 text-sm text-mute">{L("Use Driver A to report leaving, then switch to Driver B to find and confirm the spot.", "استخدم السائقة أ للإبلاغ عن المغادرة، ثم بدّل إلى السائق ب للعثور على الموقف وتأكيده.")}</p>
+              <h2 className="text-xl font-bold text-forest">{L("Choose a demo account", "اختر حساب تجريبي")}</h2>
+              <p className="mt-1 text-sm text-mute">{L("Use Driver A to report leaving, then switch to Driver B to find and confirm the spot.", "استخدم السائقة أ عشان تبلّغ عن الطلعة، وبعدها حوّل للسائق ب عشان يلقى الموقف ويأكده.")}</p>
               <div className="mt-4 space-y-2">
                 {(session?.demoUsers ?? []).slice(0, 4).map((u) => (
                   <button
@@ -75,7 +76,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
               ))}
             </div>
             <div className="flex gap-2">
-              <Button variant="ghost" size="sm" onClick={onDone}>{L("Skip", "تخطي")}</Button>
+              <Button variant="ghost" size="sm" onClick={onDone}>{L("Skip", "تخطّي")}</Button>
               {!last && (
                 <Button size="sm" onClick={() => setStep((s) => s + 1)}>
                   {L("Next", "التالي")}
